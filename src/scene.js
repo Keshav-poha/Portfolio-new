@@ -256,7 +256,7 @@ export function initScene(container) {
     }
   }
   
-  loader.load('src/assets/building-type-p.glb', (gltf) => {
+  loader.load('../assets/building-type-p.glb', (gltf) => {
     const building = gltf.scene || gltf.scenes[0];
     building.traverse((n) => {
       if (n.isMesh) {
@@ -271,7 +271,7 @@ export function initScene(container) {
     building.userData.highlightKey = 'building';
     roadSources.push(building);
     if (roadTemplate) createRoadFor(building);
-    loader.load('src/assets/factory.glb', (gltf2) => {
+    loader.load('../assets/factory.glb', (gltf2) => {
       const building2 = gltf2.scene || gltf2.scenes[0];
       building2.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
       building2.scale.set(0.004, 0.004, 0.004);
@@ -282,7 +282,7 @@ export function initScene(container) {
       roadSources.push(building2);
       if (roadTemplate) createRoadFor(building2);
     }, undefined, (err) => console.warn('Failed to load building2', err));
-    loader.load('src/assets/Camera.glb', (camGltf) => {
+    loader.load('../assets/Camera.glb', (camGltf) => {
       const camModel = camGltf.scene || camGltf.scenes[0];
       camModel.traverse((n) => {
         if (n.isMesh) {
@@ -301,7 +301,7 @@ export function initScene(container) {
     }, undefined, (err) => console.warn('Failed to load camera model', err));
   }, undefined, (err) => console.warn('Failed to load building', err));
 
-    loader.load('src/assets/cityb.glb', (gltfC) => {
+    loader.load('../assets/cityb.glb', (gltfC) => {
       const cityB = gltfC.scene || gltfC.scenes[0];
       cityB.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
       cityB.scale.set(4,4,4);
@@ -313,7 +313,7 @@ export function initScene(container) {
         if (roadTemplate) createRoadFor(cityB);
     }, undefined, (err) => console.warn('Failed to load city building', err));
 
-  loader.load('src/assets/Radio tower.glb', (gltfR) => {
+  loader.load('../assets/Radio tower.glb', (gltfR) => {
     const tower = gltfR.scene || gltfR.scenes[0];
     tower.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
     tower.scale.set(1,1,1);
@@ -326,7 +326,7 @@ export function initScene(container) {
   }, undefined, (err) => console.warn('Failed to load radio tower', err));
 
   const refScale = 1.3;
-  loader.load('src/assets/path-long.glb', (g) => {
+  loader.load('../assets/path-long.glb', (g) => {
     const template = g.scene || g.scenes[0];
     template.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
     const s = 1.0 * refScale;
@@ -351,7 +351,7 @@ export function initScene(container) {
     }
 
   
-    loader.load('src/assets/Stag Statue.glb', (gStag) => {
+    loader.load('../assets/Stag Statue.glb', (gStag) => {
       const stag = gStag.scene || gStag.scenes[0];
       stag.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
       stag.scale.setScalar(0.5);
@@ -403,7 +403,7 @@ export function initScene(container) {
       });
     }
     carSpecs.forEach((spec) => {
-      loader.load(`src/assets/${spec.file}`, (gCar) => {
+      loader.load(`../assets/${spec.file}`, (gCar) => {
         const tmpl = gCar.scene || gCar.scenes[0];
         tmpl.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
         carTemplates[spec.file] = tmpl;
@@ -413,11 +413,11 @@ export function initScene(container) {
     });
   }, undefined, (err) => console.warn('Failed to load path-long', err));
   
-    loader.load('src/assets/tree-large.glb', (gTreeL) => {
+    loader.load('../assets/tree-large.glb', (gTreeL) => {
       const tmplL = gTreeL.scene || gTreeL.scenes[0];
       tmplL.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
       tmplL.scale.set(1.2 * refScale, 1.2 * refScale, 1.2 * refScale);
-      loader.load('src/assets/tree-small.glb', (gTreeS) => {
+      loader.load('../assets/tree-small.glb', (gTreeS) => {
         const tmplS = gTreeS.scene || gTreeS.scenes[0];
         tmplS.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
         tmplS.scale.set(0.9 * refScale, 0.9 * refScale, 0.9 * refScale);
@@ -466,7 +466,7 @@ export function initScene(container) {
       }, undefined, (err) => console.warn('Failed to load tree-small', err));
     }, undefined, (err) => console.warn('Failed to load tree-large', err));
 
-  loader.load('src/assets/Pond.glb', (gltfP) => {
+  loader.load('../assets/Pond.glb', (gltfP) => {
     const pond = gltfP.scene || gltfP.scenes[0];
     pond.traverse((n) => { if (n.isMesh) { n.castShadow = false; n.receiveShadow = true; } });
     pond.scale.set(0.07, 0.07, 0.07);
@@ -475,7 +475,7 @@ export function initScene(container) {
     scene.add(pond);
   }, undefined, (err) => console.warn('Failed to load pond', err));
 
-  loader.load('src/assets/Volcano.glb', (gltfV) => {
+  loader.load('../assets/Volcano.glb', (gltfV) => {
     const volcano = gltfV.scene || gltfV.scenes[0];
     volcano.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
     volcano.scale.set(4, 4, 4);
