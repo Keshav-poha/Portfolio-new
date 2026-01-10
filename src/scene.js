@@ -20,6 +20,7 @@ export function initScene(container) {
   const portfolioImages = [
     '1.jpg','2.jpg','4.jpg','5.jpg','6.jpg','8.jpg','9.jpg','17.jpg','22.jpg','23.jpg','24.jpg','26.jpg','27.jpg','28.jpg','29.jpg','30.jpg','31.jpg','32.jpg','33.jpg','34.jpg','35.jpg','37.jpg','38.jpg','39.jpg','40.jpg','41.jpg','42.jpg','43.jpg','44.png','45.jpeg'
   ];
+  const portfolioBase = '/portfolio_pictures';
 
   function initThemeToggle() {
     const toggle = document.getElementById('theme-toggle');
@@ -93,7 +94,7 @@ export function initScene(container) {
       const grid = document.createElement('div'); grid.className = 'masonry';
       portfolioImages.forEach((fn) => {
         const img = document.createElement('img');
-        img.dataset.src = `/portfolio_pictures/${fn}`;
+        img.dataset.src = `${portfolioBase}/${fn}`;
         img.alt = fn;
         img.loading = 'lazy';
         grid.appendChild(img);
