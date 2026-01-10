@@ -16,6 +16,237 @@ export function initScene(container) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
+  const modalRoot = () => document.getElementById('modal-root');
+  const portfolioImages = [
+    '1.jpg','2.jpg','4.jpg','5.jpg','6.jpg','8.jpg','9.jpg','17.jpg','22.jpg','23.jpg','24.jpg','26.jpg','27.jpg','28.jpg','29.jpg','30.jpg','31.jpg','32.jpg','33.jpg','34.jpg','35.jpg','37.jpg','38.jpg','39.jpg','40.jpg','41.jpg','42.jpg','43.jpg','44.png','45.jpeg'
+  ];
+
+  function initThemeToggle() {
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        toggle.textContent = '🌙';
+        toggle.setAttribute('aria-pressed', 'true');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        toggle.textContent = '☀️';
+        toggle.setAttribute('aria-pressed', 'false');
+      }
+  
+      try {
+        if (typeof startTransition === 'function') {
+          startTransition(!isDark);
+        }
+      } catch (e) {
+      }
+    }
+
+    const initialDark = false;
+    applyTheme(initialDark);
+
+    toggle.addEventListener('click', () => {
+      const nowDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const nextDark = !nowDark;
+      applyTheme(nextDark);
+      localStorage.setItem('theme', nextDark ? 'dark' : 'light');
+    });
+  }
+  initThemeToggle();
+
+  function closeModal() {
+    document.body.classList.remove('modal-open');
+    const root = modalRoot();
+    if (!root) return;
+    root.innerHTML = '';
+    root.setAttribute('aria-hidden', 'true');
+    try { if (typeof returnCamera === 'function') returnCamera(); } catch (e) { /* ignore */ }
+  }
+
+  function openModal(type) {
+    const root = modalRoot();
+    if (!root) return;
+    root.innerHTML = '';
+    root.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    const content = document.createElement('div');
+    content.className = 'modal-content';
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'modal-close';
+    closeBtn.textContent = '✕';
+    closeBtn.addEventListener('click', closeModal);
+    content.appendChild(closeBtn);
+
+    if (type === 'album') {
+      const head = document.createElement('div'); head.className = 'page-head';
+      const h = document.createElement('h1'); h.textContent = 'Photography'; head.appendChild(h);
+      const p = document.createElement('p'); p.textContent = 'Some clicks with lightroom and luminar edits'; head.appendChild(p);
+      content.appendChild(head);
+      const grid = document.createElement('div'); grid.className = 'masonry';
+      portfolioImages.forEach((fn) => {
+        const img = document.createElement('img');
+        img.dataset.src = `/portfolio_pictures/${fn}`;
+        img.alt = fn;
+        img.loading = 'lazy';
+        grid.appendChild(img);
+      });
+      content.appendChild(grid);
+      requestAnimationFrame(() => {
+        const imgs = grid.querySelectorAll('img');
+        const io = new IntersectionObserver((entries, ob) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              const i = e.target; i.src = i.dataset.src; ob.unobserve(i);
+            }
+          });
+        }, { root: content, rootMargin: '200px' });
+        imgs.forEach(i => io.observe(i));
+      });
+    } else if (type === 'projects') {
+      const head = document.createElement('div'); head.className = 'page-head';
+      const h = document.createElement('h1'); h.textContent = 'Programming Projects'; head.appendChild(h);
+      const p = document.createElement('p'); p.textContent = 'Some of my work in Development'; head.appendChild(p);
+      content.appendChild(head);
+      const cards = document.createElement('div'); cards.className = 'cards';
+      const projects = [
+        {thumb:'/code/quiz.png',title:'Quiz App',desc:'An App for my own students to test and time their knowledge every week',live:'https://keshavchemquiz.netlify.app/',github:'https://github.com/Keshav-poha/Quiz'},
+        {thumb:'/code/pokedex.png',title:'Pokedex App',desc:'Pokedex webapp using pokeapi',live:'https://keshavpokedex.netlify.app/',github:'https://github.com/Keshav-poha/Pokedex'},
+        {thumb:'/code/finance.png',title:'Finance App',desc:'Finance tracking webapp',live:'https://keshavfinance.netlify.app/',github:'https://github.com/Keshav-poha/Finance'},
+        {thumb:'/code/nsutgame.png',title:'NSUT Game',desc:'A game developed with NSUT map',live:'https://nsutgame.netlify.app/',github:'https://github.com/Keshav-poha/'},
+        {thumb:'/code/matcher.png',title:'Matcher',desc:'A Moodboard',live:'https://matchermoodboard.netlify.app/',github:'https://github.com/Keshav-poha/Matcher---Copy'}
+      ];
+      projects.forEach((proj) => {
+        const card = document.createElement('article'); card.className = 'card';
+        const thumb = document.createElement('img'); thumb.className = 'thumb'; thumb.src = proj.thumb; thumb.alt = proj.title; card.appendChild(thumb);
+        const h3 = document.createElement('h3'); h3.textContent = proj.title; card.appendChild(h3);
+        const desc = document.createElement('p'); desc.className = 'muted'; desc.textContent = proj.desc; card.appendChild(desc);
+        const links = document.createElement('div'); links.className = 'links';
+        const liveLink = document.createElement('a'); liveLink.className = 'link'; liveLink.href = proj.live; liveLink.target = '_blank'; liveLink.rel = 'noopener'; liveLink.textContent = 'Live'; links.appendChild(liveLink);
+        links.appendChild(document.createTextNode(' · '));
+        const ghLink = document.createElement('a'); ghLink.className = 'link'; ghLink.href = proj.github; ghLink.target = '_blank'; ghLink.rel = 'noopener'; ghLink.textContent = 'GitHub'; links.appendChild(ghLink);
+        card.appendChild(links);
+        cards.appendChild(card);
+      });
+      content.appendChild(cards);
+    } else if (type === 'socials') {
+      const head = document.createElement('div'); head.className = 'page-head';
+      const h = document.createElement('h1'); h.textContent = 'Socials'; head.appendChild(h);
+      const p = document.createElement('p'); p.textContent = 'Connect with me'; head.appendChild(p);
+      content.appendChild(head);
+      const s = document.createElement('div'); s.className = 'socials';
+      const links = [
+        ['GitHub','https://github.com/Keshav-poha','<path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.34-1.75-1.34-1.75-1.09-.75.08-.74.08-.74 1.2.08 1.83 1.23 1.83 1.23 1.07 1.84 2.8 1.31 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.34-5.47-5.96 0-1.32.47-2.39 1.24-3.23-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.23 0 4.63-2.81 5.66-5.49 5.96.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z"/>'],
+        ['LinkedIn','https://www.linkedin.com/in/keshav-ku','<path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z"/>'],
+        ['Instagram','https://instagram.com/keshav.xyz/','<path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5a5.5 5.5 0 1 1 0 11.001 5.5 5.5 0 0 1 0-11Zm0 2a3.5 3.5 0 1 0 0 7.001 3.5 3.5 0 0 0 0-7ZM18 6.25a1.25 1.25 0 1 1 0 2.501A1.25 1.25 0 0 1 18 6.25Z"/>'],
+        ['Email','mailto:keshav.poha@gmail.com','<path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l9 5.6 9-5.6V7H3Zm18 10V9.25l-9 5.6-9-5.6V17h18Z"/>']
+      ];
+      links.forEach(([label,url,svgPath]) => {
+        const a = document.createElement('a'); a.href = url; a.target='_blank'; a.rel='noopener'; a.className = 'icon-link'; a.title = label; a.setAttribute('aria-label', label);
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); path.setAttribute('d', svgPath.replace('<path d="','').replace('"/>','')); svg.appendChild(path);
+        a.appendChild(svg); s.appendChild(a);
+      });
+      content.appendChild(s);
+    } else if (type === 'blogs') {
+      const head = document.createElement('div'); head.className = 'page-head';
+      const h = document.createElement('h1'); h.textContent = 'Blog Posts'; head.appendChild(h);
+      const p = document.createElement('p'); p.textContent = 'Check out my articles and posts on LinkedIn'; head.appendChild(p);
+      content.appendChild(head);
+      const linkContainer = document.createElement('div'); linkContainer.style.paddingTop = '20px'; linkContainer.style.textAlign = 'center';
+      const linkedinBtn = document.createElement('a'); linkedinBtn.className = 'card'; linkedinBtn.href = 'https://www.linkedin.com/in/keshav-ku/recent-activity/all/'; linkedinBtn.target = '_blank'; linkedinBtn.rel = 'noopener'; linkedinBtn.style.display = 'inline-block'; linkedinBtn.style.textDecoration = 'none'; linkedinBtn.style.maxWidth = '400px';
+      const btnTitle = document.createElement('h3'); btnTitle.textContent = 'Visit My LinkedIn'; btnTitle.style.marginBottom = '8px'; linkedinBtn.appendChild(btnTitle);
+      const btnDesc = document.createElement('p'); btnDesc.className = 'muted'; btnDesc.textContent = 'Read my latest posts, articles, and professional updates'; linkedinBtn.appendChild(btnDesc);
+      linkContainer.appendChild(linkedinBtn);
+      content.appendChild(linkContainer);
+    } else if (type === 'about') {
+      const head = document.createElement('div'); head.className = 'page-head';
+      const h = document.createElement('h1'); h.textContent = 'About Me'; head.appendChild(h);
+      const p = document.createElement('p'); p.textContent = 'Developer, Photographer, Creator'; head.appendChild(p);
+      content.appendChild(head);
+      const bio = document.createElement('div'); bio.style.padding = '20px 0';
+      const desc = document.createElement('p'); desc.textContent = "Hi! I'm Keshav, a passionate developer and photographer. I love creating interactive experiences, capturing moments through my lens, and building projects that make a difference.";
+      bio.appendChild(desc);
+      const skills = document.createElement('p'); skills.innerHTML = '<strong>Skills:</strong> Web Development, Three.js, Photography, UI/UX Design';
+      bio.appendChild(skills);
+      content.appendChild(bio);
+    } else if (type === 'external') {
+      const head = document.createElement('div'); head.className = 'page-head';
+      const h = document.createElement('h1'); h.textContent = 'DOOM Shareware'; head.appendChild(h);
+      const p = document.createElement('p'); p.textContent = 'Classic FPS running in your browser via JS-DOS'; head.appendChild(p);
+      content.appendChild(head);
+      const msg = document.createElement('p'); msg.innerHTML = 'Click to open <a href="/doom.html" target="_blank" rel="noopener" class="link">DOOM</a> in a new tab.'; content.appendChild(msg);
+    }
+
+    overlay.appendChild(content);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    root.appendChild(overlay);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const hdr = document.getElementById('site-header');
+    if (!hdr) return;
+
+    const modalToKey = { album: 'building', projects: 'factory', socials: 'radio', blogs: 'cityb', external: 'volcano', sun: 'sun' };
+
+    function findNodeByHighlightKey(key) {
+      let found = null;
+      scene.traverse((n) => { if (!found && n.userData && n.userData.highlightKey === key) found = n; });
+      return found;
+    }
+
+    function getScreenCoordsFromObject(obj) {
+      const pos = new THREE.Vector3();
+      obj.getWorldPosition(pos);
+      pos.project(camera);
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = (pos.x * 0.5 + 0.5) * rect.width + rect.left;
+      const y = (-pos.y * 0.5 + 0.5) * rect.height + rect.top;
+      return { x: Math.round(x), y: Math.round(y) };
+    }
+
+    function simulateClickAt(x, y) {
+      const evt = new MouseEvent('click', { bubbles: true, cancelable: true, view: window, clientX: x, clientY: y });
+      renderer.domElement.dispatchEvent(evt);
+    }
+
+    function simulateSceneClickForModal(modalType) {
+      if (modalType === 'sun') {
+        if (typeof sunMesh !== 'undefined' && sunMesh) {
+          const c = getScreenCoordsFromObject(sunMesh);
+          simulateClickAt(c.x, c.y);
+          return;
+        }
+        openModal('external');
+        return;
+      }
+      const key = modalToKey[modalType];
+      if (!key) { openModal(modalType); return; }
+      const node = findNodeByHighlightKey(key);
+      if (node) {
+        const c = getScreenCoordsFromObject(node);
+        simulateClickAt(c.x, c.y);
+      } else {
+        openModal(modalType);
+      }
+    }
+
+    hdr.querySelectorAll('[data-target]').forEach((b) => {
+      b.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const t = b.dataset.target;
+        simulateSceneClickForModal(t);
+      });
+    });
+  });
+
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.07;
@@ -24,6 +255,37 @@ export function initScene(container) {
   controls.maxDistance = 20;
   controls.target.set(0, 0.6, 0);
   controls.update();
+
+  const homeCameraPos = camera.position.clone();
+  const homeTarget = controls.target.clone();
+
+  const cameraAnim = { active: false, t: 0, duration: 1.2, fromPos: null, toPos: null, fromTarget: null, toTarget: null };
+
+  function easeInOutQuad(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+
+  function startCameraSequence(targetNode, duration = 1.2) {
+    if (!targetNode) return;
+    const toPos = new THREE.Vector3(0, 4, 0);
+    const toTarget = new THREE.Vector3();
+    targetNode.getWorldPosition(toTarget);
+    cameraAnim.active = true;
+    cameraAnim.t = 0;
+    cameraAnim.duration = duration;
+    cameraAnim.fromPos = camera.position.clone();
+    cameraAnim.toPos = toPos.clone();
+    cameraAnim.fromTarget = controls.target.clone();
+    cameraAnim.toTarget = toTarget.clone();
+  }
+
+  function returnCamera(duration = 1.0) {
+    cameraAnim.active = true;
+    cameraAnim.t = 0;
+    cameraAnim.duration = duration;
+    cameraAnim.fromPos = camera.position.clone();
+    cameraAnim.toPos = homeCameraPos.clone();
+    cameraAnim.fromTarget = controls.target.clone();
+    cameraAnim.toTarget = homeTarget.clone();
+  }
 
   const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 1.2);
   scene.add(hemisphereLight);
@@ -138,8 +400,27 @@ export function initScene(container) {
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
-    const hits = raycaster.intersectObjects([sunMesh, glowMesh], true);
-    if (hits.length > 0) startTransition(!isDay);
+    const hits = raycaster.intersectObjects(scene.children, true);
+    if (hits.length === 0) return;
+    for (const h of hits) {
+      if (h.object === sunMesh || h.object === glowMesh) { startTransition(!isDay); return; }
+    }
+    for (const h of hits) {
+      let node = h.object;
+      while (node && node !== scene) {
+        if (node.userData && node.userData.highlightKey) {
+          const k = node.userData.highlightKey;
+          const map = { building: 'album', factory: 'projects', radio: 'socials', cityb: 'blogs', volcano: 'external' };
+          const modalType = map[k] || map[node.name] || null;
+          if (modalType) {
+            startCameraSequence(node);
+            openModal(modalType);
+          }
+          return;
+        }
+        node = node.parent;
+      }
+    }
   }
 
   renderer.domElement.addEventListener('click', onClick);
@@ -271,7 +552,7 @@ export function initScene(container) {
     building.userData.highlightKey = 'building';
     roadSources.push(building);
     if (roadTemplate) createRoadFor(building);
-    loader.load('/assets/factory.glb', (gltf2) => {
+    loader.load('/assets/Factory.glb', (gltf2) => {
       const building2 = gltf2.scene || gltf2.scenes[0];
       building2.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
       building2.scale.set(0.004, 0.004, 0.004);
@@ -466,7 +747,7 @@ export function initScene(container) {
       }, undefined, (err) => console.warn('Failed to load tree-small', err));
     }, undefined, (err) => console.warn('Failed to load tree-large', err));
 
-  loader.load('/assets/Pond.glb', (gltfP) => {
+  loader.load('/assets/pond.glb', (gltfP) => {
     const pond = gltfP.scene || gltfP.scenes[0];
     pond.traverse((n) => { if (n.isMesh) { n.castShadow = false; n.receiveShadow = true; } });
     pond.scale.set(0.07, 0.07, 0.07);
@@ -481,7 +762,7 @@ export function initScene(container) {
     volcano.scale.set(4, 4, 4);
     volcano.rotation.x = Math.PI;
     volcano.rotation.y = Math.PI * 0.1;
-    volcano.position.set(0, -0.5, 0);
+    volcano.position.set(0, -0.2, 0);
     volcano.updateMatrixWorld(true);
     const bboxVol = new THREE.Box3().setFromObject(volcano);
     const topY = bboxVol.max.y;
@@ -560,6 +841,11 @@ export function initScene(container) {
     moonMesh.visible = !showingSun;
     moonGlow.visible = !showingSun;
 
+    try {
+      document.documentElement.setAttribute('data-theme', showingSun ? 'light' : 'dark');
+    } catch (e) {
+    }
+
     if (!transition.active) {
       const a = sunOrbit.baseAngle;
       const px = sunOrbit.center.x + sunOrbit.radius * Math.cos(a);
@@ -569,6 +855,34 @@ export function initScene(container) {
       glowMesh.position.set(px, py, pz);
       moonMesh.position.set(px, py, pz);
       moonGlow.position.set(px, py, pz);
+    }
+    if (cameraAnim.active) {
+      controls.enabled = false;
+      cameraAnim.t += delta;
+      const tt = Math.min(1, cameraAnim.t / Math.max(0.001, cameraAnim.duration));
+      const e = easeInOutQuad(tt);
+
+      const fromPos = cameraAnim.fromPos || camera.position.clone();
+      const toPos = cameraAnim.toPos || fromPos.clone();
+      const fromTarget = cameraAnim.fromTarget || controls.target.clone();
+      const toTarget = cameraAnim.toTarget || fromTarget.clone();
+
+      camera.position.lerpVectors(fromPos, toPos, e);
+  
+      const lerpedTarget = new THREE.Vector3().lerpVectors(fromTarget, toTarget, e);
+      controls.target.copy(lerpedTarget);
+      if (tt >= 1) {
+        
+        camera.position.copy(toPos);
+        controls.target.copy(toTarget);
+        cameraAnim.active = false;
+        cameraAnim.t = 0;
+        
+        controls.enabled = true;
+        controls.update();
+      }
+    } else {
+      if (controls && controls.enabled === false) controls.enabled = true;
     }
 
     controls.update();
