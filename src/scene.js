@@ -20,7 +20,7 @@ export function initScene(container) {
   controls.enableDamping = true;
   controls.dampingFactor = 0.07;
   controls.screenSpacePanning = false;
-  controls.minDistance = 5;
+  controls.minDistance = 8;
   controls.maxDistance = 20;
   controls.target.set(0, 0.6, 0);
   controls.update();
@@ -144,6 +144,73 @@ export function initScene(container) {
 
   renderer.domElement.addEventListener('click', onClick);
 
+  let currentHighlightKey = null;
+  function setMeshHighlight(mesh, enable) {
+    if (!mesh || !mesh.isMesh) return;
+    if (enable) {
+      if (mesh.userData._texlessApplied) return;
+      mesh.userData._origMaterial = mesh.material;
+      const origMats = Array.isArray(mesh.userData._origMaterial) ? mesh.userData._origMaterial : [mesh.userData._origMaterial];
+      const newMats = origMats.map((om) => {
+        const color = (om && om.color) ? om.color.clone() : new THREE.Color(0x999999);
+        return new THREE.MeshBasicMaterial({ color: color, side: (om && om.side) ? om.side : THREE.FrontSide });
+      });
+      mesh.material = Array.isArray(mesh.userData._origMaterial) ? newMats : newMats[0];
+      mesh.userData._texlessApplied = true;
+    } else {
+      if (!mesh.userData._texlessApplied) return;
+      mesh.material = mesh.userData._origMaterial;
+      delete mesh.userData._origMaterial;
+      delete mesh.userData._texlessApplied;
+    }
+  }
+
+  function clearHighlight() {
+    if (!currentHighlightKey) return;
+    scene.traverse((n) => { if (n.isMesh && n.userData && n.userData._texlessApplied) setMeshHighlight(n, false); });
+    currentHighlightKey = null;
+  }
+
+  function applyHighlight(key) {
+    if (currentHighlightKey === key) return;
+    clearHighlight();
+    if (!key) return;
+    scene.traverse((n) => {
+      if (n.userData && n.userData.highlightKey === key) {
+        n.traverse((child) => { if (child.isMesh) setMeshHighlight(child, true); });
+      }
+    });
+    currentHighlightKey = key;
+  }
+
+  function onPointerMove(event) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(scene.children, true);
+    let key = null;
+    let isInteractive = false;
+    for (const h of hits) {
+      let node = h.object;
+      while (node && node !== scene) {
+        if (node === sunMesh || node === glowMesh) { isInteractive = true; break; }
+        if (node.userData && node.userData.highlightKey) { key = node.userData.highlightKey; isInteractive = true; break; }
+        node = node.parent;
+      }
+      if (isInteractive) break;
+    }
+    if (!isInteractive) {
+      clearHighlight();
+      renderer.domElement.style.cursor = 'auto';
+    } else {
+      applyHighlight(key);
+      renderer.domElement.style.cursor = 'pointer';
+    }
+  }
+
+  renderer.domElement.addEventListener('pointermove', onPointerMove);
+
   const islandWidth = 10;
   const islandDepth = 10;
   const islandHeight = 1;
@@ -201,6 +268,7 @@ export function initScene(container) {
     building.position.set(-2.5, islandTopY, -2.5);
     building.rotation.y = Math.PI * -0.7;
     scene.add(building);
+    building.userData.highlightKey = 'building';
     roadSources.push(building);
     if (roadTemplate) createRoadFor(building);
     loader.load('src/assets/factory.glb', (gltf2) => {
@@ -210,6 +278,7 @@ export function initScene(container) {
       building2.position.set(-2.8, islandTopY, 2.2);
       building2.rotation.y = -Math.PI * 0.3;
       scene.add(building2);
+      building2.userData.highlightKey = 'factory';
       roadSources.push(building2);
       if (roadTemplate) createRoadFor(building2);
     }, undefined, (err) => console.warn('Failed to load building2', err));
@@ -228,6 +297,7 @@ export function initScene(container) {
       camModel.position.set(center.x, topY + 0.4, center.z);
       camModel.rotation.y = building.rotation.y;
       scene.add(camModel);
+      camModel.userData.highlightKey = 'building';
     }, undefined, (err) => console.warn('Failed to load camera model', err));
   }, undefined, (err) => console.warn('Failed to load building', err));
 
@@ -238,6 +308,7 @@ export function initScene(container) {
       cityB.position.set(2, islandTopY+2.8, -3);
       cityB.rotation.y = -Math.PI * -0.3;
       scene.add(cityB);
+        cityB.userData.highlightKey = 'cityb';
         roadSources.push(cityB);
         if (roadTemplate) createRoadFor(cityB);
     }, undefined, (err) => console.warn('Failed to load city building', err));
@@ -249,6 +320,7 @@ export function initScene(container) {
     tower.position.set(2, islandTopY+2.3, 3.2);
     tower.rotation.y = Math.PI * 0.15;
     scene.add(tower);
+    tower.userData.highlightKey = 'radio';
     roadSources.push(tower);
     if (roadTemplate) createRoadFor(tower);
   }, undefined, (err) => console.warn('Failed to load radio tower', err));
@@ -291,6 +363,54 @@ export function initScene(container) {
     }, undefined, (err) => console.warn('Failed to load stag statue', err));
 
     roadSources.forEach((s) => createRoadFor(s));
+
+    const carSpecs = [
+      { file: 'Car.glb', count: 2, scale: 0.004 },
+      { file: 'Red Car.glb', count: 2, scale: 0.15 },
+      { file: 'Sports Car.glb', count: 1, scale: 0.1}
+    ];
+    const carTemplates = {};
+    let carLoadCount = 0;
+    function tryPlaceCars() {
+      if (!decagonRadius || !roadSources.length) return;
+      const center = new THREE.Vector3(0, islandTopY, 0);
+      const fixedTs = [0.25, 0.4, 0.55, 0.7, 0.85, 0.3];
+      let placementIndex = 0;
+      carSpecs.forEach((spec) => {
+        const tmpl = carTemplates[spec.file];
+        if (!tmpl) return;
+        for (let i = 0; i < spec.count; i++) {
+          const src = roadSources[placementIndex % roadSources.length];
+          const pos = new THREE.Vector3();
+          src.getWorldPosition(pos);
+          const angle = Math.atan2(pos.z - center.z, pos.x - center.x);
+          const target = new THREE.Vector3(Math.cos(angle) * decagonRadius, islandTopY, Math.sin(angle) * decagonRadius);
+          const t = fixedTs[placementIndex % fixedTs.length];
+          const p = new THREE.Vector3().lerpVectors(pos, target, t);
+          const car = tmpl.clone(true);
+          car.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
+          let yOffset = 0.03;
+          if (spec.file === 'Car.glb') yOffset = 0.06;
+          else if (spec.file === 'Red Car.glb') yOffset = 0.04;
+          car.position.set(p.x, islandTopY + yOffset, p.z);
+          car.rotation.y = -angle + Math.PI / 2;
+          car.scale.setScalar(spec.scale);
+          car.userData.isCar = true;
+          car.userData.carModel = spec.file;
+          scene.add(car);
+          placementIndex++;
+        }
+      });
+    }
+    carSpecs.forEach((spec) => {
+      loader.load(`src/assets/${spec.file}`, (gCar) => {
+        const tmpl = gCar.scene || gCar.scenes[0];
+        tmpl.traverse((n) => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
+        carTemplates[spec.file] = tmpl;
+        carLoadCount++;
+        if (carLoadCount === carSpecs.length) tryPlaceCars();
+      }, undefined, (err) => console.warn('Failed to load car', spec.file, err));
+    });
   }, undefined, (err) => console.warn('Failed to load path-long', err));
   
     loader.load('src/assets/tree-large.glb', (gTreeL) => {
@@ -368,6 +488,7 @@ export function initScene(container) {
     const islandBottomY = island.position.y - (islandHeight * 0.5);
     volcano.position.set(0, islandBottomY - 0.1 - topY, 0);
     scene.add(volcano);
+    volcano.userData.highlightKey = 'volcano';
     const volcanoLight = new THREE.PointLight(0xff3300, 2.5, 10, 2);
     volcanoLight.position.set(volcano.position.x, volcano.position.y + 0.6, volcano.position.z);
     scene.add(volcanoLight);
