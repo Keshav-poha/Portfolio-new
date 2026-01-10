@@ -173,9 +173,9 @@ export function initScene(container) {
       const p = document.createElement('p'); p.textContent = 'Developer, Photographer, Creator'; head.appendChild(p);
       content.appendChild(head);
       const bio = document.createElement('div'); bio.style.padding = '20px 0';
-      const desc = document.createElement('p'); desc.textContent = "Hi! I'm Keshav, a passionate developer and photographer. I love creating interactive experiences, capturing moments through my lens, and building projects that make a difference.";
+      const desc = document.createElement('p'); desc.textContent = "Hi! I'm Keshav, NSUT-Information Technology, Batch of 2029 a passionate developer and photographer. I love creating interactive experiences, capturing moments through my lens, and building projects that make a difference.";
       bio.appendChild(desc);
-      const skills = document.createElement('p'); skills.innerHTML = '<strong>Skills:</strong> Web Development, Three.js, Photography, UI/UX Design';
+      const skills = document.createElement('p'); skills.innerHTML = '<strong>Skills:</strong> Web Development, Three.js, Photography, UI/UX Design, JavaScript, HTML, CSS, React, Node.js, Product management, Teaching, Leadership, Teamwwork.';
       bio.appendChild(skills);
       content.appendChild(bio);
     } else if (type === 'external') {
