@@ -58,7 +58,17 @@
       .blog-list h3{margin:0 0 4px;font-size:16px}
       .muted{color:var(--muted);font-size:14px}
 
-      @media (max-width:640px){.modal-content{padding:18px}.masonry{column-count:2}.container{padding:18px}}
+      @media (max-width:640px){
+        .modal-content{padding:18px}
+        .masonry{column-count:2}
+        .container{padding:18px}
+  
+        #site-header{left:50%;transform:translateX(-50%);top:12px;padding:4px}
+        #site-header nav{gap:6px;padding:6px 10px}
+        #site-header nav button,#site-header nav a{padding:6px 10px;font-size:12px;border-radius:999px}
+        #floating-avatar-link{right:12px;top:auto;bottom:12px;padding:6px}
+        #floating-avatar{width:44px;height:44px}
+      }
 
       body, .modal-content {
         scrollbar-width: thin;
