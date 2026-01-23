@@ -1,0 +1,5 @@
+[[[redirects]]
+  from = "/photography"
+  to = "/"
+  status = 301
+
