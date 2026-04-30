@@ -511,23 +511,40 @@ export default function Home() {
                   ))}
                 </div>
               </div>
+            ) : section === "Blog" ? (
+              <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Blog</h1>
+                <div className="mt-6 flex flex-col gap-4">
+                  <a
+                    href="https://blog.developer.adobe.com/en/authors/keshav-kumar"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5zm2 2h2v2H7V7zm4 0h2v2h-2V7zm4 0h2v2h-2V7zm-6 4h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/>
+                    </svg>
+                    <span className="text-2xl tracking-wide">Adobe Blog</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/keshav-ku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
+                  >
+                    <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current">
+                      <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z"/>
+                    </svg>
+                    <span className="text-2xl tracking-wide">LinkedIn</span>
+                  </a>
+                </div>
+              </div>
             ) : (
               <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
                 <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">{section}</h1>
                 <p className="mt-4 text-lg leading-relaxed text-slate-600">
-                  Check out my {section.toLowerCase()} on LinkedIn.
+                  Coming soon...
                 </p>
-                <a
-                  href="https://www.linkedin.com/in/keshav-ku"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="pointer-events-auto mt-5 inline-flex items-center gap-3 rounded-none border-b-2 border-green-500 pb-0.5 text-xl text-green-600 transition-colors hover:text-green-800"
-                >
-                  <svg viewBox="0 0 24 24" className="h-6 w-6 flex-none fill-current">
-                    <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z"/>
-                  </svg>
-                  Visit my LinkedIn
-                </a>
               </div>
             )}
 
@@ -538,17 +555,17 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Portrait — outside strip, swaps instantly on section change */}
+      {/* Portrait — outside strip, swaps on section change with smooth transition */}
       <div
-        className={`pointer-events-none absolute left-3 z-10 w-[360px] ${
+        className={`pointer-events-none absolute left-3 z-10 w-[360px] transition-all duration-500 ease-in-out ${
           activeSection === "Projects" ? "bottom-[-112px]" : "bottom-[-58px]"
         }`}
       >
         <img
           src={activeSection === "Projects" ? "/smirk.webp" : "/me.webp"}
           alt="Portrait"
-          className="h-auto w-full object-contain"
-          style={activeSection === "Projects" ? { transform: "translateY(8px)" } : undefined}
+          className="h-auto w-full object-contain transition-transform duration-500 ease-in-out"
+          style={{ transform: activeSection === "Projects" ? "translateY(8px)" : "translateY(0)" }}
         />
       </div>
 
