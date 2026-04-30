@@ -513,7 +513,7 @@ export default function Home() {
               </div>
             ) : section === "Blog" ? (
               <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Blog</h1>
+                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">My Blogs on</h1>
                 <div className="mt-6 flex flex-col gap-4">
                   <a
                     href="https://blog.developer.adobe.com/en/authors/keshav-kumar"
@@ -524,7 +524,7 @@ export default function Home() {
                     <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current" xmlns="http://www.w3.org/2000/svg">
                       <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5zm2 2h2v2H7V7zm4 0h2v2h-2V7zm4 0h2v2h-2V7zm-6 4h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/>
                     </svg>
-                    <span className="text-2xl tracking-wide">Adobe Blog</span>
+                    <span className="text-2xl tracking-wide">Adobe Developer Blogs</span>
                   </a>
                   <a
                     href="https://www.linkedin.com/in/keshav-ku"
@@ -535,7 +535,7 @@ export default function Home() {
                     <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current">
                       <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z"/>
                     </svg>
-                    <span className="text-2xl tracking-wide">LinkedIn</span>
+                    <span className="text-2xl tracking-wide"> LinkedIn</span>
                   </a>
                 </div>
               </div>
