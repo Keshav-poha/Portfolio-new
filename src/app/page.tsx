@@ -96,7 +96,7 @@ export default function Home() {
     fetch("/api/github")
       .then((r) => r.json())
       .then((data: Repo[]) => setRepos(data))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const snapTo = (section: string) => {
@@ -318,7 +318,7 @@ export default function Home() {
 
     scrollRafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(scrollRafRef.current);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Wheel → velocity
@@ -342,292 +342,286 @@ export default function Home() {
         backgroundPosition: "0 0, 20vw 0",
       }}
     >
-    <main
-      className="relative overflow-hidden"
-      style={{
-        width: DESIGN_W,
-        height: DESIGN_H,
-        transform: `scale(${scale})`,
-        transformOrigin: "top left",
-        position: "absolute",
-        left: scaleLeft,
-        top: scaleTop,
-      }}
-    >
-      <header className="absolute left-0 top-0 z-30 w-full bg-transparent px-4 py-3 sm:px-6 sm:py-4">
-        <nav className="flex flex-wrap items-center justify-start gap-0 sm:gap-0">
-          {navItems.map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => snapTo(item)}
-              className={`${cabinSketch.className} cursor-pointer bg-cover bg-center bg-no-repeat min-w-[120px] px-6 py-5 text-sm sm:min-w-[140px] sm:px-8 sm:py-6 sm:text-base ${
-                activeSection === item
+      <main
+        className="relative overflow-hidden"
+        style={{
+          width: DESIGN_W,
+          height: DESIGN_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+          position: "absolute",
+          left: scaleLeft,
+          top: scaleTop,
+        }}
+      >
+        <header className="absolute left-0 top-0 z-30 w-full bg-transparent px-4 py-3 sm:px-6 sm:py-4">
+          <nav className="flex flex-wrap items-center justify-start gap-0 sm:gap-0">
+            {navItems.map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => snapTo(item)}
+                className={`${cabinSketch.className} cursor-pointer bg-cover bg-center bg-no-repeat min-w-[120px] px-6 py-5 text-sm sm:min-w-[140px] sm:px-8 sm:py-6 sm:text-base ${activeSection === item
                   ? "text-white [text-shadow:0_0_3px_#fff,0_0_1px_rgba(255,255,255,0.8)]"
                   : "text-slate-700"
-              }`}
-              style={{
-                backgroundImage: activeSection === item
-                  ? "url('/black_cloud.webp')"
-                  : "url('/cloud.webp')",
-              }}
+                  }`}
+                style={{
+                  backgroundImage: activeSection === item
+                    ? "url('/black_cloud.webp')"
+                    : "url('/cloud.webp')",
+                }}
+              >
+                <span className="relative top-1">{item}</span>
+              </button>
+            ))}
+          </nav>
+        </header>
+
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <img
+            ref={planeRef}
+            src="/plane.webp"
+            alt="Paper airplane"
+            className="plane-drift absolute left-0 top-0 h-auto opacity-100"
+            style={{ width: '19%' }}
+          />
+        </div>
+
+        {/* Horizontal section strip */}
+        <div
+          ref={stripRef}
+          className="pointer-events-none absolute top-0 left-0 h-full flex z-20"
+          style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
+        >
+          {navItems.map((section) => (
+            <div
+              key={section}
+              className="pointer-events-none relative flex-none h-full"
+              style={{ width: DESIGN_W }}
             >
-              <span className="relative top-1">{item}</span>
-            </button>
-          ))}
-        </nav>
-      </header>
-
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <img
-          ref={planeRef}
-          src="/plane.webp"
-          alt="Paper airplane"
-          className="plane-drift absolute left-0 top-0 h-auto opacity-100"
-          style={{ width: '19%' }}
-        />
-      </div>
-
-      {/* Horizontal section strip */}
-      <div
-        ref={stripRef}
-        className="pointer-events-none absolute top-0 left-0 h-full flex z-20"
-        style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
-      >
-        {navItems.map((section) => (
-          <div
-            key={section}
-            className="pointer-events-none relative flex-none h-full"
-            style={{ width: DESIGN_W }}
-          >
-            {section === "About" ? (
-              <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 sm:text-6xl md:text-7xl">KESHAV</h1>
-                <p className="text-lg font-semibold tracking-wide text-green-600 sm:text-2xl md:text-3xl">
-                  NSUT&apos;29 · Information Technology
-                </p>
-                <p className="mt-3 text-base leading-relaxed text-slate-700 sm:text-lg md:text-2xl">
-                  I love creating interactive experiences, capturing moments through my lens, and building projects that make a difference.
-                </p>
-                <div className="mt-4 sm:mt-6">
-                  <h2 className="text-xl tracking-wide text-green-600 sm:text-2xl md:text-3xl">Skills</h2>
-                  <div className="mt-3 flex max-w-[760px] flex-wrap gap-x-2 gap-y-2">
-                    {skills.map((logo) => (
-                      <div key={logo.name} className="flex w-[52px] flex-col items-center text-center sm:w-[56px]">
-                        <img src={logo.src} alt={logo.name} title={logo.name} className="sketch-logo h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
-                        <span className="mt-0.5 text-[9px] font-semibold leading-tight text-slate-700 sm:text-[10px]">{logo.name}</span>
-                      </div>
-                    ))}
+              {section === "About" ? (
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                  <h1 className="text-4xl tracking-wider text-green-600 sm:text-6xl md:text-7xl">KESHAV</h1>
+                  <p className="text-lg font-semibold tracking-wide text-green-600 sm:text-2xl md:text-3xl">
+                    NSUT&apos;29 · Information Technology
+                  </p>
+                  <p className="mt-3 text-base leading-relaxed text-slate-700 sm:text-lg md:text-2xl">
+                    I love creating interactive experiences, capturing moments through my lens, and building projects that make a difference.
+                  </p>
+                  <div className="mt-4 sm:mt-6">
+                    <h2 className="text-xl tracking-wide text-green-600 sm:text-2xl md:text-3xl">Skills</h2>
+                    <div className="mt-3 flex max-w-[760px] flex-wrap gap-x-2 gap-y-2">
+                      {skills.map((logo) => (
+                        <div key={logo.name} className="flex w-[52px] flex-col items-center text-center sm:w-[56px]">
+                          <img src={logo.src} alt={logo.name} title={logo.name} className="sketch-logo h-6 w-6 sm:h-7 sm:w-7" loading="lazy" />
+                          <span className="mt-0.5 text-[9px] font-semibold leading-tight text-slate-700 sm:text-[10px]">{logo.name}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : section === "Experience" ? (
-              <div className={`${cabinSketch.className} absolute left-[34%] top-[22%] w-[56%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Experience</h1>
-                <p className="mt-4 text-lg leading-relaxed text-slate-600">
-                  Check out my full experience on LinkedIn.
-                </p>
-                <a
-                  href="https://www.linkedin.com/in/keshav-ku"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="pointer-events-auto mt-5 inline-flex items-center gap-3 rounded-none border-b-2 border-green-500 pb-0.5 text-xl text-green-600 transition-colors hover:text-green-800"
-                >
-                  <svg viewBox="0 0 24 24" className="h-6 w-6 flex-none fill-current">
-                    <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z"/>
-                  </svg>
-                  Visit my LinkedIn
-                </a>
-              </div>
-            ) : section === "Projects" ? (
-              <div className={`${cabinSketch.className} absolute left-[34%] top-[14%] w-[58%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
-                <div className="mt-3 flex flex-col gap-3 overflow-y-auto" style={{ maxHeight: 520 }}>
-                  {repos.length === 0 ? (
-                    <p className="text-slate-400">Loading...</p>
-                  ) : (
-                    repos.map((repo) => (
-                      <div key={repo.name} className="border-l-4 border-green-400 pl-3 pr-1">
-                        <div className="flex items-center gap-2">
-                          <a
-                            href={repo.html_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="pointer-events-auto text-lg font-bold text-green-700 hover:underline"
-                          >
-                            {repo.name}
-                          </a>
-                          {repo.fork && (
-                            <span className="text-[10px] text-slate-400 border border-slate-300 px-1 rounded">fork</span>
-                          )}
-                          {repo.homepage && (
-                            <a
-                              href={repo.homepage}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="pointer-events-auto text-xs text-green-500 hover:underline ml-auto pr-1"
-                            >
-                              live ↗
-                            </a>
-                          )}
-                        </div>
-                        {repo.description && (
-                          <p className="text-sm leading-snug text-slate-600 mt-0.5">{repo.description}</p>
-                        )}
-                        <div className="mt-1 flex items-center gap-3 text-xs text-slate-500">
-                          {repo.language && (
-                            <span className="flex items-center gap-1">
-                              <span
-                                className="inline-block h-2.5 w-2.5 rounded-full"
-                                style={{ backgroundColor: LANG_COLORS[repo.language] ?? "#8b949e" }}
-                              />
-                              {repo.language}
-                            </span>
-                          )}
-                          {repo.stars > 0 && (
-                            <span>★ {repo.stars}</span>
-                          )}
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
-            ) : section === "Socials" ? (
-              <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Socials</h1>
-                <div className="mt-6 flex flex-col gap-4">
-                  {links.map(([label, href, svgPath]) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target={href.startsWith('mailto') ? undefined : '_blank'}
-                      rel="noopener noreferrer"
-                      className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
-                    >
-                      <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current" dangerouslySetInnerHTML={{ __html: svgPath }} />
-                      <span className="text-2xl tracking-wide">{label}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ) : section === "Blog" ? (
-              <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">My Blogs on</h1>
-                <div className="mt-6 flex flex-col gap-4">
-                  <a
-                    href="https://blog.developer.adobe.com/en/authors/keshav-kumar"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
-                  >
-                    <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5zm2 2h2v2H7V7zm4 0h2v2h-2V7zm4 0h2v2h-2V7zm-6 4h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z"/>
-                    </svg>
-                    <span className="text-2xl tracking-wide">Adobe Developer Blogs</span>
-                  </a>
+              ) : section === "Experience" ? (
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[22%] w-[56%] text-left`}>
+                  <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Experience</h1>
+                  <p className="mt-4 text-lg leading-relaxed text-slate-600">
+                    Check out my full experience on LinkedIn.
+                  </p>
                   <a
                     href="https://www.linkedin.com/in/keshav-ku"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
+                    className="pointer-events-auto mt-5 inline-flex items-center gap-3 rounded-none border-b-2 border-green-500 pb-0.5 text-xl text-green-600 transition-colors hover:text-green-800"
                   >
-                    <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current">
-                      <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z"/>
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 flex-none fill-current">
+                      <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z" />
                     </svg>
-                    <span className="text-2xl tracking-wide"> LinkedIn</span>
+                    Visit my LinkedIn
                   </a>
                 </div>
-              </div>
-            ) : (
-              <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
-                <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">{section}</h1>
-                <p className="mt-4 text-lg leading-relaxed text-slate-600">
-                  Coming soon...
-                </p>
-              </div>
-            )}
+              ) : section === "Projects" ? (
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[14%] w-[58%] text-left`}>
+                  <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
+                  <div className="mt-3 flex flex-col gap-3 overflow-y-auto" style={{ maxHeight: 520 }}>
+                    {repos.length === 0 ? (
+                      <p className="text-slate-400">Loading...</p>
+                    ) : (
+                      repos.map((repo) => (
+                        <div key={repo.name} className="border-l-4 border-green-400 pl-3 pr-1">
+                          <div className="flex items-center gap-2">
+                            <a
+                              href={repo.html_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="pointer-events-auto text-lg font-bold text-green-700 hover:underline"
+                            >
+                              {repo.name}
+                            </a>
+                            {repo.fork && (
+                              <span className="text-[10px] text-slate-400 border border-slate-300 px-1 rounded">fork</span>
+                            )}
+                            {repo.homepage && (
+                              <a
+                                href={repo.homepage}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="pointer-events-auto text-xs text-green-500 hover:underline ml-auto pr-1"
+                              >
+                                live ↗
+                              </a>
+                            )}
+                          </div>
+                          {repo.description && (
+                            <p className="text-sm leading-snug text-slate-600 mt-0.5">{repo.description}</p>
+                          )}
+                          <div className="mt-1 flex items-center gap-3 text-xs text-slate-500">
+                            {repo.language && (
+                              <span className="flex items-center gap-1">
+                                <span
+                                  className="inline-block h-2.5 w-2.5 rounded-full"
+                                  style={{ backgroundColor: LANG_COLORS[repo.language] ?? "#8b949e" }}
+                                />
+                                {repo.language}
+                              </span>
+                            )}
+                            {repo.stars > 0 && (
+                              <span>★ {repo.stars}</span>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              ) : section === "Socials" ? (
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                  <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Socials</h1>
+                  <div className="mt-6 flex flex-col gap-4">
+                    {links.map(([label, href, svgPath]) => (
+                      <a
+                        key={label}
+                        href={href}
+                        target={href.startsWith('mailto') ? undefined : '_blank'}
+                        rel="noopener noreferrer"
+                        className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
+                      >
+                        <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current" dangerouslySetInnerHTML={{ __html: svgPath }} />
+                        <span className="text-2xl tracking-wide">{label}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : section === "Blog" ? (
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                  <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">My Blogs on</h1>
+                  <div className="mt-6 flex flex-col gap-4">
+                    <a
+                      href="https://blog.developer.adobe.com/en/authors/keshav-kumar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5zm2 2h2v2H7V7zm4 0h2v2h-2V7zm4 0h2v2h-2V7zm-6 4h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+                      </svg>
+                      <span className="text-2xl tracking-wide">Adobe Developer Blogs</span>
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/keshav-ku"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
+                    >
+                      <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current">
+                        <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z" />
+                      </svg>
+                      <span className="text-2xl tracking-wide"> LinkedIn</span>
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                  <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">{section}</h1>
+                  <p className="mt-4 text-lg leading-relaxed text-slate-600">
+                    Coming soon...
+                  </p>
+                </div>
+              )}
 
 
 
 
-          </div>
-        ))}
-      </div>
+            </div>
+          ))}
+        </div>
 
-      {/* Portrait — outside strip, swaps on section change with smooth transition */}
-      <div
-        className="pointer-events-none absolute left-3 z-10 w-[360px] transition-all duration-500 ease-in-out bottom-[-58px]"
-      >
-        <img
-          src="/me.webp"
-          alt="Portrait"
-          className="h-auto w-full object-contain transition-transform duration-500 ease-in-out"
-          style={{ transform: "translateY(0)" }}
-        />
-      </div>
+        <div
+          className="pointer-events-none absolute top-80 z-10 w-[400px] transition-all duration-500 ease-in-out bottom-[-58px]"
+        >
+          <img
+            src="/me.webp"
+            alt="Portrait"
+            className="h-auto w-full object-contain transition-transform duration-500 ease-in-out"
+            style={{ transform: "translateY(0)" }}
+          />
+        </div>
 
-      {/* Normal glasses — outside strip, always on screen, slides onto portrait except in Projects */}
-      <div
-        className={`pointer-events-none absolute left-3 z-20 w-[360px] aspect-[43/62] transition-all duration-500 ease-in-out ${
-          activeSection === "Projects" ? "bottom-[29px] -translate-x-[178px] rotate-90" : "bottom-[-65px] translate-x-0 rotate-0"
-        }`}
-      >
-        <img
-          src="/glasses.webp"
-          alt="Glasses"
-          className="pointer-events-none absolute left-[50.5%] top-[19%] h-auto w-[49%] -translate-x-1/2"
-        />
-      </div>
+        {/* Normal glasses — outside strip, always on screen, slides onto portrait except in Projects */}
+        <div
+          className={`pointer-events-none absolute top-37 left-11 z-20 w-[300px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Projects" ? "bottom-[29px] -translate-x-[178px] rotate-90" : "bottom-[-65px] translate-x-0 rotate-0"
+            }`}
+        >
+          <img
+            src="/glasses.webp"
+            alt="Glasses"
+            className="pointer-events-none absolute left-[52.5%] top-[33.8%] h-auto w-[40%] -translate-x-1/2"
+          />
+        </div>
 
-      {/* Sunglasses — outside strip, always on screen, slides onto portrait in Projects */}
-      <div
-        className={`pointer-events-none absolute left-3 z-20 w-[360px] aspect-[43/62] transition-all duration-500 ease-in-out ${
-          activeSection === "Projects" ? "bottom-[-65px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
-        }`}
-      >
-        <img
-          src="/sunglasses.webp"
-          alt="Sunglasses"
-          className="pointer-events-none absolute left-[50.5%] top-[19%] h-auto w-[49%] -translate-x-1/2"
-        />
-      </div>
+        {/* Sunglasses — outside strip, always on screen, slides onto portrait in Projects */}
+        <div
+          className={`pointer-events-none absolute left-12 top-52 z-15 w-[290px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Projects" ? "bottom-[-65px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
+            }`}
+        >
+          <img
+            src="/sunglasses.webp"
+            alt="Sunglasses"
+            className="pointer-events-none absolute left-[52.5%] top-[27%] h-auto w-[42%] -translate-x-1/2"
+          />
+        </div>
 
-      {/* Suit — outside strip, slides onto portrait in Experience */}
-      <div
-        className={`pointer-events-none absolute left-3 z-20 w-[360px] aspect-[43/62] transition-all duration-500 ease-in-out ${
-          activeSection === "Experience" ? "bottom-[72px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
-        }`}
-      >
-        <img
-          src="/suit.webp"
-          alt="Suit"
-          className="pointer-events-none absolute left-[50%] top-[40%] h-auto w-[120%] -translate-x-1/2"
-        />
-      </div>
+        {/* Suit — outside strip, slides onto portrait in Experience */}
+        <div
+          className={`pointer-events-none absolute left-1.5 top-14 z-20 w-[400px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Experience" ? "bottom-[72px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
+            }`}
+        >
+          <img
+            src="/suit.webp"
+            alt="Suit"
+            className="pointer-events-none absolute left-[48.5%] top-[44%] h-auto w-[110%] -translate-x-1/2"
+          />
+        </div>
 
-      {/* Camera — outside strip, slides in on Blog */}
-      <div
-        className={`pointer-events-none absolute right-6 z-20 w-[220px] aspect-square transition-all duration-500 ease-in-out ${
-          activeSection === "Blog" ? "bottom-[40px] translate-x-0 rotate-[-6deg] opacity-100" : "bottom-[40px] translate-x-[260px] rotate-[-6deg] opacity-0"
-        }`}
-      >
-        <img
-          src="/camera.webp"
-          alt="Camera"
-          className="h-auto w-full object-contain"
-        />
-      </div>
+        {/* Camera — outside strip, slides in on Blog */}
+        <div
+          className={`pointer-events-none absolute right-6 z-20 w-[220px] aspect-square transition-all duration-500 ease-in-out ${activeSection === "Blog" ? "bottom-[40px] translate-x-0 rotate-[-6deg] opacity-100" : "bottom-[40px] translate-x-[260px] rotate-[-6deg] opacity-0"
+            }`}
+        >
+          <img
+            src="/camera.webp"
+            alt="Camera"
+            className="h-auto w-full object-contain"
+          />
+        </div>
 
-      {/* Scroll hint — fixed, outside strip */}
-      <div className={`${cabinSketch.className} absolute bottom-6 right-5 z-30 flex flex-col items-center gap-1 text-slate-500`}>
-        <svg className="scroll-bounce" width="22" height="34" viewBox="0 0 22 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1.5" y="1.5" width="19" height="31" rx="9.5" stroke="currentColor" strokeWidth="2"/>
-          <rect x="9.5" y="6" width="3" height="7" rx="1.5" fill="currentColor"/>
-        </svg>
-        <span className="text-[11px] tracking-widest sm:text-xs">scroll</span>
-      </div>
-    </main>
+        {/* Scroll hint — fixed, outside strip */}
+        <div className={`${cabinSketch.className} absolute bottom-6 right-5 z-30 flex flex-col items-center gap-1 text-slate-500`}>
+          <svg className="scroll-bounce" width="22" height="34" viewBox="0 0 22 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="19" height="31" rx="9.5" stroke="currentColor" strokeWidth="2" />
+            <rect x="9.5" y="6" width="3" height="7" rx="1.5" fill="currentColor" />
+          </svg>
+          <span className="text-[11px] tracking-widest sm:text-xs">scroll</span>
+        </div>
+      </main>
     </div>
   );
 }
