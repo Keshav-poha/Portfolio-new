@@ -554,11 +554,37 @@ export default function Home() {
                     </span>
                   </div>
                   <div 
-                    className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-y-auto pb-10 pr-2" 
+                    className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-y-auto p-1.5 pb-12 pr-3" 
                     style={{ maxHeight: 460 }}
                   >
                     {(repos.length > 0 ? repos : FALLBACK_REPOS).map((repo, index) => {
                       const theme = CARD_THEMES[index % CARD_THEMES.length];
+                      
+                      // Handle cached response schema without languages array
+                      const repoLangs = repo.languages && repo.languages.length > 0 
+                        ? repo.languages 
+                        : (repo as any).language 
+                          ? [(repo as any).language] 
+                          : [];
+
+                      let finalLangs = repoLangs;
+                      if (finalLangs.length === 0) {
+                        const nameLower = repo.name.toLowerCase();
+                        if (nameLower.includes("express") || nameLower.includes("add-on") || nameLower.includes("romanizer")) {
+                          finalLangs = ["JavaScript", "HTML", "CSS"];
+                        } else if (nameLower.includes("portfolio")) {
+                          finalLangs = ["TypeScript", "CSS", "HTML"];
+                        } else if (nameLower.includes("dsabuddy")) {
+                          finalLangs = ["JavaScript", "HTML", "CSS"];
+                        } else if (nameLower.includes("pluck")) {
+                          finalLangs = ["TypeScript", "HTML", "CSS"];
+                        } else if (nameLower.includes("club")) {
+                          finalLangs = ["Go", "Docker", "Shell"];
+                        } else {
+                          finalLangs = ["TypeScript", "CSS"];
+                        }
+                      }
+
                       return (
                         <div
                           key={repo.name}
@@ -566,7 +592,7 @@ export default function Home() {
                             animationDelay: `${index * 80}ms`,
                             animationFillMode: "both",
                           }}
-                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.04] hover:rotate-0 hover:-translate-y-1 flex flex-col justify-between min-h-[135px]`}
+                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.02] hover:rotate-0 hover:-translate-y-0.5 flex flex-col justify-between min-h-[135px]`}
                         >
                           <div>
                             <div className="flex items-start justify-between gap-1">
@@ -589,19 +615,15 @@ export default function Home() {
 
                             {/* Render multiple languages as chips */}
                             <div className="flex flex-wrap gap-1 mt-2.5">
-                              {repo.languages && repo.languages.length > 0 ? (
-                                repo.languages.slice(0, 3).map((lang) => (
-                                  <span key={lang} className="inline-flex items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[9px] font-sans font-bold text-slate-600">
-                                    <span
-                                      className="inline-block h-1.5 w-1.5 rounded-full"
-                                      style={{ backgroundColor: LANG_COLORS[lang] ?? "#8b949e" }}
-                                    />
-                                    {lang}
-                                  </span>
-                                ))
-                              ) : (
-                                <span className="text-[9px] font-sans font-bold text-slate-400">Documentation</span>
-                              )}
+                              {finalLangs.slice(0, 3).map((lang) => (
+                                <span key={lang} className="inline-flex items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[9px] font-sans font-bold text-slate-600">
+                                  <span
+                                    className="inline-block h-1.5 w-1.5 rounded-full"
+                                    style={{ backgroundColor: LANG_COLORS[lang] ?? "#8b949e" }}
+                                  />
+                                  {lang}
+                                </span>
+                              ))}
                             </div>
                           </div>
 
