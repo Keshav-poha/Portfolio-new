@@ -438,6 +438,52 @@ export default function Home() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, []);
 
+  // Touch swipe support for horizontal navigation on mobile/tablet devices
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let isMoving = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isMoving = true;
+        targetXRef.current = null; // cancel snap
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isMoving || e.touches.length !== 1) return;
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const diffX = startX - currentX;
+      const diffY = startY - currentY;
+
+      // Only navigate horizontally if the horizontal motion is dominant
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (e.cancelable) e.preventDefault();
+        velocityRef.current += diffX * 0.75;
+      }
+      startX = currentX;
+      startY = currentY;
+    };
+
+    const handleTouchEnd = () => {
+      isMoving = false;
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, []);
+
   return (
     <div
       className="fixed inset-0 overflow-hidden"
