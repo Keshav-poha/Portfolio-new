@@ -546,7 +546,7 @@ export default function Home() {
                   </a>
                 </div>
               ) : section === "Projects" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[12%] w-[58%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[20%] w-[58%] text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
                     <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
@@ -555,7 +555,7 @@ export default function Home() {
                   </div>
                   <div 
                     className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-y-auto pb-10 pr-2" 
-                    style={{ maxHeight: 520 }}
+                    style={{ maxHeight: 460 }}
                   >
                     {(repos.length > 0 ? repos : FALLBACK_REPOS).map((repo, index) => {
                       const theme = CARD_THEMES[index % CARD_THEMES.length];
@@ -605,28 +605,25 @@ export default function Home() {
                             </div>
                           </div>
 
-                          <div className="mt-4 flex items-center justify-between border-t border-slate-200/40 pt-2 text-[10px]">
-                            <span className="font-sans font-bold text-slate-400 uppercase tracking-widest text-[8px]">#code</span>
-                            <div className="flex items-center gap-2">
+                          <div className="mt-4 flex items-center justify-end border-t border-slate-200/40 pt-2 text-[10px] gap-2">
+                            <a
+                              href={repo.html_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-sans font-bold text-green-700 hover:text-green-900 border-b border-dashed border-green-500 hover:border-solid"
+                            >
+                              code ↗
+                            </a>
+                            {repo.homepage && (
                               <a
-                                href={repo.html_url}
+                                href={repo.homepage}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="font-sans font-bold text-green-700 hover:text-green-900 border-b border-dashed border-green-500 hover:border-solid"
+                                className="font-sans font-bold text-blue-700 hover:text-blue-900 border-b border-dashed border-blue-500 hover:border-solid"
                               >
-                                code ↗
+                                live ↗
                               </a>
-                              {repo.homepage && (
-                                <a
-                                  href={repo.homepage}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="font-sans font-bold text-blue-700 hover:text-blue-900 border-b border-dashed border-blue-500 hover:border-solid"
-                                >
-                                  live ↗
-                                </a>
-                              )}
-                            </div>
+                            )}
                           </div>
                         </div>
                       );
