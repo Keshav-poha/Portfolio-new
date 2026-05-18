@@ -354,7 +354,7 @@ export default function Home() {
           top: scaleTop,
         }}
       >
-        <header className="absolute left-0 top-0 z-30 w-full bg-transparent px-4 py-3 sm:px-6 sm:py-4">
+        <header className="absolute left-0 top-0 z-40 w-full bg-transparent px-4 py-3 sm:px-6 sm:py-4">
           <nav className="flex flex-wrap items-center justify-start gap-0 sm:gap-0">
             {navItems.map((item) => (
               <button
@@ -390,7 +390,7 @@ export default function Home() {
         {/* Horizontal section strip */}
         <div
           ref={stripRef}
-          className="pointer-events-none absolute top-0 left-0 h-full flex z-20"
+          className="pointer-events-none absolute top-0 left-0 h-full flex z-10"
           style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
         >
           {navItems.map((section) => (
@@ -555,7 +555,7 @@ export default function Home() {
         </div>
 
         <div
-          className="pointer-events-none absolute top-80 z-10 w-[400px] transition-all duration-500 ease-in-out bottom-[-58px]"
+          className="pointer-events-none absolute top-80 z-20 w-[400px] transition-all duration-500 ease-in-out bottom-[-58px]"
         >
           <img
             src="/me.webp"
@@ -567,7 +567,7 @@ export default function Home() {
 
         {/* Normal glasses — outside strip, always on screen, slides onto portrait except in Projects */}
         <div
-          className={`pointer-events-none absolute top-37 left-11 z-20 w-[300px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Projects" ? "bottom-[29px] -translate-x-[178px] rotate-90" : "bottom-[-65px] translate-x-0 rotate-0"
+          className={`pointer-events-none absolute top-37 left-11 z-30 w-[300px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Projects" ? "bottom-[29px] -translate-x-[178px] rotate-90" : "bottom-[-65px] translate-x-0 rotate-0"
             }`}
         >
           <img
@@ -579,7 +579,7 @@ export default function Home() {
 
         {/* Sunglasses — outside strip, always on screen, slides onto portrait in Projects */}
         <div
-          className={`pointer-events-none absolute left-12 top-52 z-15 w-[290px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Projects" ? "bottom-[-65px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
+          className={`pointer-events-none absolute left-12 top-52 z-30 w-[290px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Projects" ? "bottom-[-65px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
             }`}
         >
           <img
@@ -591,7 +591,7 @@ export default function Home() {
 
         {/* Suit — outside strip, slides onto portrait in Experience */}
         <div
-          className={`pointer-events-none absolute left-1.5 top-14 z-20 w-[400px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Experience" ? "bottom-[72px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
+          className={`pointer-events-none absolute left-1.5 top-14 z-30 w-[400px] aspect-[43/62] transition-all duration-500 ease-in-out ${activeSection === "Experience" ? "bottom-[72px] translate-x-0 rotate-0" : "bottom-[29px] -translate-x-[178px] rotate-90"
             }`}
         >
           <img
@@ -614,7 +614,7 @@ export default function Home() {
         </div>
 
         {/* Scroll hint — fixed, outside strip */}
-        <div className={`${cabinSketch.className} absolute bottom-6 right-5 z-30 flex flex-col items-center gap-1 text-slate-500`}>
+        <div className={`${cabinSketch.className} absolute bottom-6 right-5 z-40 flex flex-col items-center gap-1 text-slate-500`}>
           <svg className="scroll-bounce" width="22" height="34" viewBox="0 0 22 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="1.5" y="1.5" width="19" height="31" rx="9.5" stroke="currentColor" strokeWidth="2" />
             <rect x="9.5" y="6" width="3" height="7" rx="1.5" fill="currentColor" />
