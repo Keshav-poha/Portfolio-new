@@ -595,8 +595,8 @@ export default function Home() {
                           className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.02] hover:rotate-0 hover:-translate-y-0.5 flex flex-col justify-between min-h-[135px]`}
                         >
                           <div>
-                            <div className="flex items-start justify-between gap-1">
-                              <h2 className="text-lg font-bold tracking-wide text-slate-800 line-clamp-1" title={repo.name}>
+                            <div className="flex items-start justify-between gap-1.5 w-full">
+                              <h2 className="text-[13px] sm:text-[14px] font-bold tracking-wide text-slate-800 leading-snug break-all sm:break-words flex-1" title={repo.name}>
                                 {repo.name}
                               </h2>
                               <div className="flex flex-none items-center gap-1">
