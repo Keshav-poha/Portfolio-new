@@ -15,7 +15,7 @@ type Repo = {
   name: string;
   description: string;
   html_url: string;
-  language: string | null;
+  languages: string[];
   stars: number;
   homepage: string;
   fork: boolean;
@@ -32,6 +32,8 @@ const LANG_COLORS: Record<string, string> = {
   CSS: "#563d7c",
   HTML: "#e34c26",
   Shell: "#89e051",
+  Docker: "#389DEC",
+  "Jupyter Notebook": "#DA5B0B"
 };
 
 const FALLBACK_REPOS: Repo[] = [
@@ -39,7 +41,7 @@ const FALLBACK_REPOS: Repo[] = [
     name: "Pixel-Pluck",
     description: "An interactive, sketch-based canvas pixel art game and editor built with TypeScript.",
     html_url: "https://github.com/Keshav-poha/Pixel-Pluck",
-    language: "TypeScript",
+    languages: ["TypeScript", "CSS", "HTML"],
     stars: 8,
     homepage: "https://pixel-pluck.vercel.app",
     fork: false
@@ -48,7 +50,7 @@ const FALLBACK_REPOS: Repo[] = [
     name: "Portfolio-new",
     description: "A gorgeous, interactive hand-drawn notebook portfolio built with Next.js and Tailwind CSS.",
     html_url: "https://github.com/Keshav-poha/Portfolio-new",
-    language: "TypeScript",
+    languages: ["TypeScript", "JavaScript", "CSS"],
     stars: 12,
     homepage: "https://keshav.xyz",
     fork: false
@@ -57,7 +59,7 @@ const FALLBACK_REPOS: Repo[] = [
     name: "dsabuddy",
     description: "A fully interactive visual data structures and algorithms platform for learners.",
     html_url: "https://github.com/Keshav-poha/dsabuddy",
-    language: "JavaScript",
+    languages: ["JavaScript", "HTML", "CSS"],
     stars: 5,
     homepage: "https://dsabuddy.tech",
     fork: false
@@ -66,7 +68,7 @@ const FALLBACK_REPOS: Repo[] = [
     name: "neural-archeology",
     description: "Analyzing hidden layers and historical weights of deep neural networks in Python.",
     html_url: "https://github.com/Keshav-poha/neural-archeology",
-    language: "Python",
+    languages: ["Python", "Jupyter Notebook"],
     stars: 15,
     homepage: "",
     fork: false
@@ -75,7 +77,7 @@ const FALLBACK_REPOS: Repo[] = [
     name: "ClubConnect",
     description: "High-performance backend API for university club connections and event management.",
     html_url: "https://github.com/Keshav-poha/ClubConnect",
-    language: "Go",
+    languages: ["Go", "Docker", "Shell"],
     stars: 7,
     homepage: "",
     fork: false
@@ -552,7 +554,7 @@ export default function Home() {
                     </span>
                   </div>
                   <div 
-                    className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-2 gap-5 overflow-y-auto pb-10 pr-2" 
+                    className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-y-auto pb-10 pr-2" 
                     style={{ maxHeight: 520 }}
                   >
                     {(repos.length > 0 ? repos : FALLBACK_REPOS).map((repo, index) => {
@@ -561,51 +563,56 @@ export default function Home() {
                         <div
                           key={repo.name}
                           style={{
-                            animationDelay: `${index * 90}ms`,
+                            animationDelay: `${index * 80}ms`,
                             animationFillMode: "both",
                           }}
-                          className={`slide-up-in pointer-events-auto p-4 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.03] hover:rotate-0 hover:-translate-y-1`}
+                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.04] hover:rotate-0 hover:-translate-y-1 flex flex-col justify-between min-h-[135px]`}
                         >
-                          <div className="flex items-start justify-between gap-1">
-                            <h2 className="text-xl font-bold tracking-wide text-slate-800 line-clamp-1">
-                              {repo.name}
-                            </h2>
-                            <div className="flex flex-none items-center gap-1.5">
-                              {repo.fork && (
-                                <span className="text-[9px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
-                                  fork
-                                </span>
-                              )}
-                              {repo.stars > 0 && (
-                                <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1.5 py-0.5 text-xs font-bold text-amber-700 leading-none">
-                                  ★ {repo.stars}
-                                </span>
+                          <div>
+                            <div className="flex items-start justify-between gap-1">
+                              <h2 className="text-lg font-bold tracking-wide text-slate-800 line-clamp-1" title={repo.name}>
+                                {repo.name}
+                              </h2>
+                              <div className="flex flex-none items-center gap-1">
+                                {repo.fork && (
+                                  <span className="text-[8px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
+                                    fork
+                                  </span>
+                                )}
+                                {repo.stars > 0 && (
+                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[10px] font-bold text-amber-700 leading-none">
+                                    ★{repo.stars}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Render multiple languages as chips */}
+                            <div className="flex flex-wrap gap-1 mt-2.5">
+                              {repo.languages && repo.languages.length > 0 ? (
+                                repo.languages.slice(0, 3).map((lang) => (
+                                  <span key={lang} className="inline-flex items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[9px] font-sans font-bold text-slate-600">
+                                    <span
+                                      className="inline-block h-1.5 w-1.5 rounded-full"
+                                      style={{ backgroundColor: LANG_COLORS[lang] ?? "#8b949e" }}
+                                    />
+                                    {lang}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-[9px] font-sans font-bold text-slate-400">Documentation</span>
                               )}
                             </div>
                           </div>
 
-                          <p className="text-xs font-sans font-medium leading-relaxed text-slate-700 mt-2 h-10 overflow-hidden text-ellipsis line-clamp-2">
-                            {repo.description || "A very cool project developed by Keshav. Check out the source code for more details."}
-                          </p>
-
-                          <div className="mt-4 flex items-center justify-between border-t border-slate-200/60 pt-3">
-                            {repo.language ? (
-                              <span className="flex items-center gap-1.5 text-xs font-sans font-semibold text-slate-600">
-                                <span
-                                  className="inline-block h-2 w-2 rounded-full ring-2 ring-white"
-                                  style={{ backgroundColor: LANG_COLORS[repo.language] ?? "#8b949e" }}
-                                />
-                                {repo.language}
-                              </span>
-                            ) : (
-                              <span className="text-xs font-sans font-semibold text-slate-400">Documentation</span>
-                            )}
+                          <div className="mt-4 flex items-center justify-between border-t border-slate-200/40 pt-2 text-[10px]">
+                            <span className="font-sans font-bold text-slate-400 uppercase tracking-widest text-[8px]">#code</span>
                             <div className="flex items-center gap-2">
                               <a
                                 href={repo.html_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-0.5 text-xs font-sans font-bold text-green-700 hover:text-green-900 border-b border-dashed border-green-500 hover:border-solid"
+                                className="font-sans font-bold text-green-700 hover:text-green-900 border-b border-dashed border-green-500 hover:border-solid"
                               >
                                 code ↗
                               </a>
@@ -614,7 +621,7 @@ export default function Home() {
                                   href={repo.homepage}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex items-center gap-0.5 text-xs font-sans font-bold text-blue-700 hover:text-blue-900 border-b border-dashed border-blue-500 hover:border-solid ml-1"
+                                  className="font-sans font-bold text-blue-700 hover:text-blue-900 border-b border-dashed border-blue-500 hover:border-solid"
                                 >
                                   live ↗
                                 </a>

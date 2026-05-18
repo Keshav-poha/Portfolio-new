@@ -17,9 +17,11 @@ const PINNED_QUERY = `
             stargazerCount
             homepageUrl
             isFork
-            primaryLanguage {
-              name
-              color
+            languages(first: 4, orderBy: {field: SIZE, direction: DESC}) {
+              nodes {
+                name
+                color
+              }
             }
           }
         }
@@ -35,7 +37,9 @@ type GQLRepo = {
   stargazerCount: number;
   homepageUrl: string | null;
   isFork: boolean;
-  primaryLanguage: { name: string; color: string } | null;
+  languages: {
+    nodes: { name: string; color: string }[];
+  } | null;
 };
 
 export async function GET() {
@@ -75,7 +79,7 @@ export async function GET() {
       name: r.name,
       description: r.description ?? "",
       html_url: r.url,
-      language: r.primaryLanguage?.name ?? null,
+      languages: r.languages?.nodes?.map((l) => l.name) ?? [],
       stars: r.stargazerCount,
       homepage: r.homepageUrl ?? "",
       fork: r.isFork,
