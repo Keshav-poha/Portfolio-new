@@ -557,15 +557,13 @@ export default function Home() {
 
       {/* Portrait — outside strip, swaps on section change with smooth transition */}
       <div
-        className={`pointer-events-none absolute left-3 z-10 w-[360px] transition-all duration-500 ease-in-out ${
-          activeSection === "Projects" ? "bottom-[-112px]" : "bottom-[-58px]"
-        }`}
+        className="pointer-events-none absolute left-3 z-10 w-[360px] transition-all duration-500 ease-in-out bottom-[-58px]"
       >
         <img
-          src={activeSection === "Projects" ? "/smirk.webp" : "/me.webp"}
+          src="/me.webp"
           alt="Portrait"
           className="h-auto w-full object-contain transition-transform duration-500 ease-in-out"
-          style={{ transform: activeSection === "Projects" ? "translateY(8px)" : "translateY(0)" }}
+          style={{ transform: "translateY(0)" }}
         />
       </div>
 
