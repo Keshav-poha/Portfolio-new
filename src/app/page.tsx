@@ -789,6 +789,51 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Camera — Detached from scaling window */}
+      <div
+        className="pointer-events-none absolute z-20"
+        style={{
+          width: DESIGN_W,
+          height: DESIGN_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+          left: scaleLeft,
+          top: scaleTop,
+        }}
+      >
+        <div
+          className={`pointer-events-none absolute right-6 z-20 w-[220px] aspect-square transition-all duration-500 ease-in-out ${activeSection === "Blog" ? "bottom-[40px] translate-x-0 rotate-[-6deg] opacity-100" : "bottom-[40px] translate-x-[260px] rotate-[-6deg] opacity-0"
+            }`}
+        >
+          <img
+            src="/camera.webp"
+            alt="Camera"
+            className="h-auto w-full object-contain"
+          />
+        </div>
+      </div>
+
+      {/* Scroll hint — Detached from scaling window */}
+      <div
+        className="pointer-events-none absolute z-30"
+        style={{
+          width: DESIGN_W,
+          height: DESIGN_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+          left: scaleLeft,
+          top: scaleTop,
+        }}
+      >
+        <div className={`${cabinSketch.className} absolute bottom-6 right-5 flex flex-col items-center gap-1 text-slate-500`}>
+          <svg className="scroll-bounce" width="22" height="34" viewBox="0 0 22 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1.5" y="1.5" width="19" height="31" rx="9.5" stroke="currentColor" strokeWidth="2" />
+            <rect x="9.5" y="6" width="3" height="7" rx="1.5" fill="currentColor" />
+          </svg>
+          <span className="text-[11px] tracking-widest sm:text-xs">scroll</span>
+        </div>
+      </div>
+
       <main
         className="pointer-events-none relative overflow-hidden"
         style={{
@@ -852,26 +897,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Camera — outside strip, slides in on Blog */}
-        <div
-          className={`pointer-events-none absolute right-6 z-20 w-[220px] aspect-square transition-all duration-500 ease-in-out ${activeSection === "Blog" ? "bottom-[40px] translate-x-0 rotate-[-6deg] opacity-100" : "bottom-[40px] translate-x-[260px] rotate-[-6deg] opacity-0"
-            }`}
-        >
-          <img
-            src="/camera.webp"
-            alt="Camera"
-            className="h-auto w-full object-contain"
-          />
-        </div>
-
-        {/* Scroll hint — fixed, outside strip */}
-        <div className={`${cabinSketch.className} absolute bottom-6 right-5 z-40 flex flex-col items-center gap-1 text-slate-500`}>
-          <svg className="scroll-bounce" width="22" height="34" viewBox="0 0 22 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1.5" y="1.5" width="19" height="31" rx="9.5" stroke="currentColor" strokeWidth="2" />
-            <rect x="9.5" y="6" width="3" height="7" rx="1.5" fill="currentColor" />
-          </svg>
-          <span className="text-[11px] tracking-widest sm:text-xs">scroll</span>
-        </div>
       </main>
     </div>
   );
