@@ -195,15 +195,16 @@ export default function Home() {
       const s = Math.min(window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
       setScale(s);
       setScaleLeft(0);
-      setScaleTop((window.innerHeight - DESIGN_H * s) / 2);
+      setScaleTop(window.innerHeight - DESIGN_H * s);
 
       const ns = 1.2 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
       setNavScale(ns);
-      setNavLeft(window.innerWidth * 0.22);
+      setNavLeft(window.innerWidth * 0.01);
 
-      const ss = 1.0 * Math.min(1, window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
+      const ssRatio = window.innerWidth / DESIGN_W;
+      const ss = Math.min(1.0, ssRatio * (1.25 - 0.25 * ssRatio));
       setSecScale(ss);
-      setSecLeft(window.innerWidth * 0.22);
+      setSecLeft(window.innerWidth * 0.10);
     };
     update();
     window.addEventListener("resize", update);
@@ -563,7 +564,7 @@ export default function Home() {
 
       {/* Sections Wrapper — Detached from main scaling window */}
       <div
-        className="pointer-events-none absolute z-10"
+        className="pointer-events-none absolute z-10 overflow-hidden"
         style={{
           width: DESIGN_W,
           height: DESIGN_H,
