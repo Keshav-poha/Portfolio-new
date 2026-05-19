@@ -195,9 +195,9 @@ export default function Home() {
       setScaleLeft((window.innerWidth - DESIGN_W * s) / 2);
       setScaleTop((window.innerHeight - DESIGN_H * s) / 2);
 
-      const ns = Math.min(1, window.innerWidth / DESIGN_W);
+      const ns = 1.2 * Math.min(1, window.innerWidth / 700);
       setNavScale(ns);
-      setNavLeft((window.innerWidth - DESIGN_W * ns) / 2);
+      setNavLeft(Math.max(0, (window.innerWidth - DESIGN_W * ns) / 2));
     };
     update();
     window.addEventListener("resize", update);
