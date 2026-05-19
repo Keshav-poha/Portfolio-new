@@ -180,6 +180,8 @@ export default function Home() {
   const [scale, setScale] = useState(1);
   const [scaleLeft, setScaleLeft] = useState(0);
   const [scaleTop, setScaleTop] = useState(0);
+  const [navScale, setNavScale] = useState(1);
+  const [navLeft, setNavLeft] = useState(0);
   const activeSectionRef = useRef("About");
   const scrollXRef = useRef(0);
   const velocityRef = useRef(0);
@@ -192,6 +194,10 @@ export default function Home() {
       setScale(s);
       setScaleLeft((window.innerWidth - DESIGN_W * s) / 2);
       setScaleTop((window.innerHeight - DESIGN_H * s) / 2);
+
+      const ns = Math.min(1, window.innerWidth / DESIGN_W);
+      setNavScale(ns);
+      setNavLeft((window.innerWidth - DESIGN_W * ns) / 2);
     };
     update();
     window.addEventListener("resize", update);
@@ -499,9 +505,9 @@ export default function Home() {
         className="absolute z-40 bg-transparent px-4"
         style={{
           width: DESIGN_W,
-          transform: `scale(${scale})`,
+          transform: `scale(${navScale})`,
           transformOrigin: "top left",
-          left: scaleLeft,
+          left: navLeft,
           top: 16,
         }}
       >
