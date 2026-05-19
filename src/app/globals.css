@@ -81,18 +81,18 @@ img {
 
 /* Device-specific Scroll/Swipe Hints */
 .mouse-only-hint {
-  display: flex;
+  display: flex !important;
 }
 .touch-only-hint {
-  display: none;
+  display: none !important;
 }
 
 @media (hover: none) and (pointer: coarse) {
   .mouse-only-hint {
-    display: none;
+    display: none !important;
   }
   .touch-only-hint {
-    display: flex;
+    display: flex !important;
   }
 }
 
