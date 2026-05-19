@@ -195,7 +195,7 @@ export default function Home() {
       setScaleLeft((window.innerWidth - DESIGN_W * s) / 2);
       setScaleTop((window.innerHeight - DESIGN_H * s) / 2);
 
-      const ns = 1.2 * Math.min(1, window.innerWidth / 850);
+      const ns = 1.2 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
       setNavScale(ns);
       setNavLeft(Math.max(0, (window.innerWidth - DESIGN_W * ns) / 2));
     };
@@ -533,33 +533,23 @@ export default function Home() {
         </nav>
       </header>
 
-      <main
-        className="relative overflow-hidden"
+
+      {/* Sections Wrapper — Detached from main scaling window */}
+      <div
+        className="pointer-events-none absolute z-10"
         style={{
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `scale(${scale})`,
+          transform: `scale(${navScale})`,
           transformOrigin: "top left",
-          position: "absolute",
-          left: scaleLeft,
-          top: scaleTop,
+          left: navLeft,
+          top: 100,
         }}
       >
-
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <img
-            ref={planeRef}
-            src="/plane.webp"
-            alt="Paper airplane"
-            className="plane-drift absolute left-0 top-0 h-auto opacity-100"
-            style={{ width: '19%' }}
-          />
-        </div>
-
         {/* Horizontal section strip */}
         <div
           ref={stripRef}
-          className="pointer-events-none absolute top-0 left-0 h-full flex z-10"
+          className="pointer-events-none absolute top-0 left-0 h-full flex"
           style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
         >
           {navItems.map((section) => (
@@ -569,7 +559,7 @@ export default function Home() {
               style={{ width: DESIGN_W }}
             >
               {section === "About" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 sm:text-6xl md:text-7xl">KESHAV</h1>
                   <p className="text-lg font-semibold tracking-wide text-green-600 sm:text-2xl md:text-3xl">
                     NSUT&apos;29 · Information Technology
@@ -590,7 +580,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Experience" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[22%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Experience</h1>
                   <p className="mt-4 text-lg leading-relaxed text-slate-600">
                     Check out my full experience on LinkedIn.
@@ -608,7 +598,7 @@ export default function Home() {
                   </a>
                 </div>
               ) : section === "Projects" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[20%] w-[58%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[58%] text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
                     <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
@@ -715,7 +705,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Socials" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Socials</h1>
                   <div className="mt-6 flex flex-col gap-4">
                     {links.map(([label, href, svgPath]) => (
@@ -733,7 +723,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Blog" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">My Blogs on</h1>
                   <div className="mt-6 flex flex-col gap-4">
                     <a
@@ -761,19 +751,39 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[34%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">{section}</h1>
                   <p className="mt-4 text-lg leading-relaxed text-slate-600">
                     Coming soon...
                   </p>
                 </div>
               )}
-
-
-
-
             </div>
           ))}
+        </div>
+      </div>
+
+      <main
+        className="relative overflow-hidden"
+        style={{
+          width: DESIGN_W,
+          height: DESIGN_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+          position: "absolute",
+          left: scaleLeft,
+          top: scaleTop,
+        }}
+      >
+
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <img
+            ref={planeRef}
+            src="/plane.webp"
+            alt="Paper airplane"
+            className="plane-drift absolute left-0 top-0 h-auto opacity-100"
+            style={{ width: '19%' }}
+          />
         </div>
 
         <div
