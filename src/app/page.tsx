@@ -182,7 +182,7 @@ export default function Home() {
   const [scaleTop, setScaleTop] = useState(0);
   const [navScale, setNavScale] = useState(1.2);
   const [navLeft, setNavLeft] = useState(0);
-  const [secScale, setSecScale] = useState(0.6);
+  const [secScale, setSecScale] = useState(1.0);
   const [secLeft, setSecLeft] = useState(0);
   const activeSectionRef = useRef("About");
   const scrollXRef = useRef(0);
@@ -201,7 +201,7 @@ export default function Home() {
       setNavScale(ns);
       setNavLeft(Math.max(0, (window.innerWidth - DESIGN_W * ns) / 2));
 
-      const ss = 0.6 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
+      const ss = 1.0 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
       setSecScale(ss);
       setSecLeft(Math.max(0, (window.innerWidth - DESIGN_W * ss) / 2));
     };
@@ -611,18 +611,18 @@ export default function Home() {
                       Pinned Repositories
                     </span>
                   </div>
-                  <div 
-                    className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-y-auto p-1.5 pb-12 pr-3" 
+                  <div
+                    className="custom-scrollbar mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 overflow-y-auto p-1.5 pb-12 pr-3"
                     style={{ maxHeight: 460 }}
                   >
                     {(repos.length > 0 ? repos : FALLBACK_REPOS).map((repo, index) => {
                       const theme = CARD_THEMES[index % CARD_THEMES.length];
-                      
+
                       // Handle cached response schema without languages array
-                      const repoLangs = repo.languages && repo.languages.length > 0 
-                        ? repo.languages 
-                        : (repo as any).language 
-                          ? [(repo as any).language] 
+                      const repoLangs = repo.languages && repo.languages.length > 0
+                        ? repo.languages
+                        : (repo as any).language
+                          ? [(repo as any).language]
                           : [];
 
                       let finalLangs = repoLangs;
