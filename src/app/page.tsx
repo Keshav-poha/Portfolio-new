@@ -11,6 +11,10 @@ const cabinSketch = Cabin_Sketch({
 const DESIGN_W = 1080;
 const DESIGN_H = 720;
 
+// Set these to whatever larger limit you want for the sections
+const SEC_W = 1920; 
+const SEC_H = SEC_W*(9/16)+400;
+
 type Repo = {
   name: string;
   description: string;
@@ -201,9 +205,9 @@ export default function Home() {
       setNavScale(ns);
       setNavLeft(window.innerWidth * 0.01);
 
-      const ss = Math.min(0.6, window.innerWidth / DESIGN_W);
+      const ss = Math.min(0.65, window.innerWidth / SEC_W);
       setSecScale(ss);
-      setSecLeft(Math.max(0, window.innerWidth * 0.2 - DESIGN_W * 0.22 * ss));
+      setSecLeft(Math.max(0, (window.innerWidth - SEC_W * ss) / 3.4));
     };
     update();
     window.addEventListener("resize", update);
@@ -221,7 +225,7 @@ export default function Home() {
   const snapTo = (section: string) => {
     const idx = navItems.indexOf(section);
     if (idx < 0) return;
-    targetXRef.current = idx * DESIGN_W;
+    targetXRef.current = idx * SEC_W;
     velocityRef.current = 0;
     activeSectionRef.current = section;
     setActiveSection(section);
@@ -395,7 +399,7 @@ export default function Home() {
     const loop = () => {
       const strip = stripRef.current;
       if (strip) {
-        const maxX = (navItems.length - 1) * DESIGN_W;
+        const maxX = (navItems.length - 1) * SEC_W;
 
         if (targetXRef.current !== null) {
           const diff = targetXRef.current - scrollXRef.current;
@@ -403,7 +407,7 @@ export default function Home() {
             scrollXRef.current = targetXRef.current;
             targetXRef.current = null;
             // Snap complete — confirm active section
-            const idx = Math.round(scrollXRef.current / DESIGN_W);
+            const idx = Math.round(scrollXRef.current / SEC_W);
             const settled = navItems[Math.max(0, Math.min(navItems.length - 1, idx))];
             if (settled !== activeSectionRef.current) {
               activeSectionRef.current = settled;
@@ -418,9 +422,9 @@ export default function Home() {
           scrollXRef.current = Math.max(0, Math.min(maxX, scrollXRef.current));
           if (Math.abs(velocityRef.current) < 0.4) {
             velocityRef.current = 0;
-            const idx = Math.round(scrollXRef.current / DESIGN_W);
+            const idx = Math.round(scrollXRef.current / SEC_W);
             const snapIdx = Math.max(0, Math.min(navItems.length - 1, idx));
-            targetXRef.current = snapIdx * DESIGN_W;
+            targetXRef.current = snapIdx * SEC_W;
             // Update active section when wheel scroll settles
             const settled = navItems[snapIdx];
             if (settled !== activeSectionRef.current) {
@@ -565,8 +569,8 @@ export default function Home() {
       <div
         className="pointer-events-none absolute z-10 overflow-hidden"
         style={{
-          width: DESIGN_W,
-          height: DESIGN_H,
+          width: SEC_W,
+          height: SEC_H,
           transform: `scale(${secScale})`,
           transformOrigin: "top left",
           left: secLeft,
@@ -577,63 +581,63 @@ export default function Home() {
         <div
           ref={stripRef}
           className="pointer-events-none absolute top-0 left-0 h-full flex"
-          style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
+          style={{ width: `${navItems.length * SEC_W}px`, willChange: "transform" }}
         >
           {navItems.map((section) => (
             <div
               key={section}
               className="pointer-events-none relative flex-none h-full"
-              style={{ width: DESIGN_W }}
+              style={{ width: SEC_W }}
             >
               {section === "About" ? (
-                <div className={`${cabinSketch.className} absolute left-[22%] top-[12%] w-[72%] text-left`}>
-                  <h1 className="text-[80px] tracking-wider text-green-600 leading-none">KESHAV</h1>
-                  <p className="text-[38px] font-semibold tracking-wide text-green-600 mt-1 leading-tight">
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[10%] w-[72%] text-left max-sm:left-[10%] max-sm:w-[55%] max-sm:scale-[1.6] max-sm:origin-top-left`}>
+                  <h1 className="text-[120px] tracking-wider text-green-600 leading-none">KESHAV</h1>
+                  <p className="text-[56px] font-semibold tracking-wide text-green-600 mt-1 leading-tight">
                     NSUT&apos;29 · Information Technology
                   </p>
-                  <p className="mt-2 text-[32px] leading-snug text-slate-700">
+                  <p className="mt-3 text-[44px] leading-snug text-slate-700">
                     I love creating interactive experiences, capturing moments through my lens, and building projects that make a difference.
                   </p>
-                  <div className="mt-3">
-                    <h2 className="text-[38px] tracking-wide text-green-600">Skills</h2>
-                    <div className="mt-2 flex max-w-[760px] flex-wrap gap-x-2 gap-y-2">
+                  <div className="mt-4">
+                    <h2 className="text-[52px] tracking-wide text-green-600">Skills</h2>
+                    <div className="mt-3 flex max-w-[760px] flex-wrap gap-x-3 gap-y-3">
                       {skills.map((logo) => (
-                        <div key={logo.name} className="flex w-[62px] flex-col items-center text-center">
-                          <img src={logo.src} alt={logo.name} title={logo.name} className="sketch-logo h-10 w-10" loading="lazy" />
-                          <span className="mt-0.5 text-[14px] font-semibold leading-tight text-slate-700">{logo.name}</span>
+                        <div key={logo.name} className="flex w-[72px] flex-col items-center text-center">
+                          <img src={logo.src} alt={logo.name} title={logo.name} className="sketch-logo h-12 w-12" loading="lazy" />
+                          <span className="mt-0.5 text-[18px] font-semibold leading-tight text-slate-700">{logo.name}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
               ) : section === "Experience" ? (
-                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
-                  <h1 className="text-[80px] tracking-wider text-green-600 leading-none">Experience</h1>
-                  <p className="mt-3 text-[32px] leading-snug text-slate-600">
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left max-sm:left-[10%] max-sm:w-[55%] max-sm:scale-[1.6] max-sm:origin-top-left`}>
+                  <h1 className="text-[120px] tracking-wider text-green-600 leading-none">Experience</h1>
+                  <p className="mt-4 text-[44px] leading-snug text-slate-600">
                     Check out my full experience on LinkedIn.
                   </p>
                   <a
                     href="https://www.linkedin.com/in/keshav-ku"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="pointer-events-auto mt-4 inline-flex items-center gap-3 rounded-none border-b-2 border-green-500 pb-0.5 text-[32px] text-green-600 transition-colors hover:text-green-800"
+                    className="pointer-events-auto mt-5 inline-flex items-center gap-3 rounded-none border-b-2 border-green-500 pb-0.5 text-[44px] text-green-600 transition-colors hover:text-green-800"
                   >
-                    <svg viewBox="0 0 24 24" className="h-8 w-8 flex-none fill-current">
+                    <svg viewBox="0 0 24 24" className="h-10 w-10 flex-none fill-current">
                       <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z" />
                     </svg>
                     Visit my LinkedIn
                   </a>
                 </div>
               ) : section === "Projects" ? (
-                <div className={`${cabinSketch.className} absolute left-[22%] top-[10%] w-[72%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[8%] w-[72%] text-left max-sm:left-[10%] max-sm:w-[55%] max-sm:scale-[1.6] max-sm:origin-top-left`}>
                   <div className="flex items-baseline justify-between pr-2">
-                    <h1 className="text-[72px] tracking-wider text-green-600 leading-none">Projects</h1>
-                    <span className="text-[14px] font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
+                    <h1 className="text-[100px] tracking-wider text-green-600 leading-none">Projects</h1>
+                    <span className="text-[18px] font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
                       Pinned Repositories
                     </span>
                   </div>
                   <div
-                    className="mt-3 grid grid-cols-3 gap-3 p-1.5 pb-2 pr-3"
+                    className="mt-4 grid grid-cols-3 gap-4 p-1.5 pb-2 pr-3"
                   >
                     {(repos.length > 0 ? repos : FALLBACK_REPOS).map((repo, index) => {
                       const theme = CARD_THEMES[index % CARD_THEMES.length];
@@ -674,17 +678,17 @@ export default function Home() {
                         >
                           <div>
                             <div className="flex items-start justify-between gap-1.5 w-full">
-                              <h2 className="text-[18px] font-bold tracking-wide text-slate-800 leading-snug truncate flex-1" title={repo.name}>
+                              <h2 className="text-[24px] font-bold tracking-wide text-slate-800 leading-snug truncate flex-1" title={repo.name}>
                                 {repo.name}
                               </h2>
                               <div className="flex flex-none items-center gap-1">
                                 {repo.fork && (
-                                  <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
+                                  <span className="text-[14px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
                                     fork
                                   </span>
                                 )}
                                 {repo.stars > 0 && (
-                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[12px] font-bold text-amber-700 leading-none">
+                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[16px] font-bold text-amber-700 leading-none">
                                     ★{repo.stars}
                                   </span>
                                 )}
@@ -694,7 +698,7 @@ export default function Home() {
                             {/* Render multiple languages as chips */}
                             <div className="flex flex-nowrap overflow-hidden gap-1 mt-2 sm:mt-2.5">
                               {finalLangs.slice(0, 3).map((lang) => (
-                                <span key={lang} className="inline-flex flex-none items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[12px] font-sans font-bold text-slate-600">
+                                <span key={lang} className="inline-flex flex-none items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[16px] font-sans font-bold text-slate-600">
                                   <span
                                     className="inline-block h-1.5 w-1.5 rounded-full"
                                     style={{ backgroundColor: LANG_COLORS[lang] ?? "#8b949e" }}
@@ -705,7 +709,7 @@ export default function Home() {
                             </div>
                           </div>
 
-                          <div className="mt-2 flex flex-none items-center justify-end border-t border-slate-200/40 pt-1.5 text-[13px] gap-2">
+                          <div className="mt-3 flex flex-none items-center justify-end border-t border-slate-200/40 pt-2 text-[18px] gap-2">
                             <a
                               href={repo.html_url}
                               target="_blank"
@@ -731,55 +735,55 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Socials" ? (
-                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
-                  <h1 className="text-[80px] tracking-wider text-green-600 leading-none">Socials</h1>
-                  <div className="mt-5 flex flex-col gap-5 items-start">
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left max-sm:left-[10%] max-sm:w-[55%] max-sm:scale-[1.6] max-sm:origin-top-left`}>
+                  <h1 className="text-[120px] tracking-wider text-green-600 leading-none">Socials</h1>
+                  <div className="mt-6 flex flex-col gap-6 items-start">
                     {links.map(([label, href, svgPath]) => (
                       <a
                         key={label}
                         href={href}
                         target={href.startsWith('mailto') ? undefined : '_blank'}
                         rel="noopener noreferrer"
-                        className="pointer-events-auto flex items-center gap-3 text-slate-700 transition-colors hover:text-green-600"
+                        className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
                       >
-                        <svg viewBox="0 0 24 24" className="h-10 w-10 flex-none fill-current" dangerouslySetInnerHTML={{ __html: svgPath }} />
-                        <span className="text-[32px] tracking-wide">{label}</span>
+                        <svg viewBox="0 0 24 24" className="h-14 w-14 flex-none fill-current" dangerouslySetInnerHTML={{ __html: svgPath }} />
+                        <span className="text-[44px] tracking-wide">{label}</span>
                       </a>
                     ))}
                   </div>
                 </div>
               ) : section === "Blog" ? (
-                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
-                  <h1 className="text-[80px] tracking-wider text-green-600 leading-none">My Blogs on</h1>
-                  <div className="mt-5 flex flex-col gap-5 items-start">
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left max-sm:left-[10%] max-sm:w-[55%] max-sm:scale-[1.6] max-sm:origin-top-left`}>
+                  <h1 className="text-[120px] tracking-wider text-green-600 leading-none">My Blogs on</h1>
+                  <div className="mt-6 flex flex-col gap-6 items-start">
                     <a
                       href="https://blog.developer.adobe.com/en/authors/keshav-kumar"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="pointer-events-auto flex items-center gap-3 text-slate-700 transition-colors hover:text-green-600"
+                      className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
                     >
-                      <svg viewBox="0 0 24 24" className="h-10 w-10 flex-none fill-current" xmlns="http://www.w3.org/2000/svg">
+                      <svg viewBox="0 0 24 24" className="h-14 w-14 flex-none fill-current" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v14h14V5H5zm2 2h2v2H7V7zm4 0h2v2h-2V7zm4 0h2v2h-2V7zm-6 4h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
                       </svg>
-                      <span className="text-[32px] tracking-wide">Adobe Developer Blogs</span>
+                      <span className="text-[44px] tracking-wide">Adobe Developer Blogs</span>
                     </a>
                     <a
                       href="https://www.linkedin.com/in/keshav-ku"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="pointer-events-auto flex items-center gap-3 text-slate-700 transition-colors hover:text-green-600"
+                      className="pointer-events-auto flex items-center gap-4 text-slate-700 transition-colors hover:text-green-600"
                     >
-                      <svg viewBox="0 0 24 24" className="h-10 w-10 flex-none fill-current">
+                      <svg viewBox="0 0 24 24" className="h-14 w-14 flex-none fill-current">
                         <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5.001 2.5 2.5 0 0 0 0-5Zm.02 6.5H2v11h3V10ZM9 10H6v11h3v-6c0-1.66 1.34-3 3-3s3 .99 3 3v6h3v-6.5C18 10.57 15.43 8 12.5 8 10.98 8 9.66 8.71 9 9.76V10Z" />
                       </svg>
-                      <span className="text-[32px] tracking-wide"> LinkedIn</span>
+                      <span className="text-[44px] tracking-wide"> LinkedIn</span>
                     </a>
                   </div>
                 </div>
               ) : (
-                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
-                  <h1 className="text-[80px] tracking-wider text-green-600 leading-none">{section}</h1>
-                  <p className="mt-3 text-[32px] leading-snug text-slate-600">
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left max-sm:left-[10%] max-sm:w-[55%] max-sm:scale-[1.6] max-sm:origin-top-left`}>
+                  <h1 className="text-[120px] tracking-wider text-green-600 leading-none">{section}</h1>
+                  <p className="mt-4 text-[44px] leading-snug text-slate-600">
                     Coming soon...
                   </p>
                 </div>
