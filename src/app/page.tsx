@@ -194,16 +194,16 @@ export default function Home() {
     const update = () => {
       const s = Math.min(window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
       setScale(s);
-      setScaleLeft((window.innerWidth - DESIGN_W * s) / 2);
+      setScaleLeft(0);
       setScaleTop((window.innerHeight - DESIGN_H * s) / 2);
 
       const ns = 1.2 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
       setNavScale(ns);
-      setNavLeft(Math.max(0, (window.innerWidth - DESIGN_W * ns) / 2));
+      setNavLeft(window.innerWidth * 0.22);
 
       const ss = 1.0 * Math.min(1, window.innerWidth / DESIGN_W, window.innerHeight / DESIGN_H);
       setSecScale(ss);
-      setSecLeft(Math.max(0, (window.innerWidth - DESIGN_W * ss) / 2));
+      setSecLeft(window.innerWidth * 0.22);
     };
     update();
     window.addEventListener("resize", update);
@@ -586,7 +586,7 @@ export default function Home() {
               style={{ width: DESIGN_W }}
             >
               {section === "About" ? (
-                <div className={`${cabinSketch.className} absolute left-[5%] md:left-[34%] top-[18%] w-[90%] md:w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">KESHAV</h1>
                   <p className="text-3xl md:text-3xl font-semibold tracking-wide text-green-600 mt-1">
                     NSUT&apos;29 · Information Technology
@@ -607,7 +607,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Experience" ? (
-                <div className={`${cabinSketch.className} absolute left-[5%] md:left-[34%] top-[18%] w-[90%] md:w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">Experience</h1>
                   <p className="mt-4 text-3xl md:text-xl leading-relaxed text-slate-600">
                     Check out my full experience on LinkedIn.
@@ -625,7 +625,7 @@ export default function Home() {
                   </a>
                 </div>
               ) : section === "Projects" ? (
-                <div className={`${cabinSketch.className} absolute left-[21%] md:left-[34%] top-[18%] w-[58%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
                     <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
@@ -731,7 +731,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Socials" ? (
-                <div className={`${cabinSketch.className} absolute left-[5%] md:left-[34%] top-[18%] w-[90%] md:w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">Socials</h1>
                   <div className="mt-6 flex flex-col gap-6 md:gap-4 items-start">
                     {links.map(([label, href, svgPath]) => (
@@ -749,7 +749,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Blog" ? (
-                <div className={`${cabinSketch.className} absolute left-[5%] md:left-[34%] top-[18%] w-[90%] md:w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">My Blogs on</h1>
                   <div className="mt-6 flex flex-col gap-6 md:gap-4 items-start">
                     <a
@@ -777,7 +777,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <div className={`${cabinSketch.className} absolute left-[5%] md:left-[34%] top-[18%] w-[90%] md:w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">{section}</h1>
                   <p className="mt-4 text-3xl md:text-lg leading-relaxed text-slate-600">
                     Coming soon...
