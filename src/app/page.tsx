@@ -565,7 +565,7 @@ export default function Home() {
               style={{ width: DESIGN_W }}
             >
               {section === "About" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-1/2 -translate-x-1/2 md:left-[34%] md:translate-x-0 top-[18%] w-[90%] md:w-[56%] text-center md:text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 sm:text-6xl md:text-7xl">KESHAV</h1>
                   <p className="text-lg font-semibold tracking-wide text-green-600 sm:text-2xl md:text-3xl">
                     NSUT&apos;29 · Information Technology
@@ -586,7 +586,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Experience" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-1/2 -translate-x-1/2 md:left-[34%] md:translate-x-0 top-[18%] w-[90%] md:w-[56%] text-center md:text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Experience</h1>
                   <p className="mt-4 text-lg leading-relaxed text-slate-600">
                     Check out my full experience on LinkedIn.
@@ -604,7 +604,7 @@ export default function Home() {
                   </a>
                 </div>
               ) : section === "Projects" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[58%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-1/2 -translate-x-1/2 md:left-[34%] md:translate-x-0 top-[18%] w-[92%] md:w-[58%] text-center md:text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
                     <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
@@ -711,9 +711,9 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Socials" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-1/2 -translate-x-1/2 md:left-[34%] md:translate-x-0 top-[18%] w-[90%] md:w-[56%] text-center md:text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Socials</h1>
-                  <div className="mt-6 flex flex-col gap-4">
+                  <div className="mt-6 flex flex-col gap-4 items-center md:items-start">
                     {links.map(([label, href, svgPath]) => (
                       <a
                         key={label}
@@ -729,9 +729,9 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Blog" ? (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-1/2 -translate-x-1/2 md:left-[34%] md:translate-x-0 top-[18%] w-[90%] md:w-[56%] text-center md:text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">My Blogs on</h1>
-                  <div className="mt-6 flex flex-col gap-4">
+                  <div className="mt-6 flex flex-col gap-4 items-center md:items-start">
                     <a
                       href="https://blog.developer.adobe.com/en/authors/keshav-kumar"
                       target="_blank"
@@ -757,7 +757,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <div className={`${cabinSketch.className} absolute left-[34%] top-[18%] w-[56%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-1/2 -translate-x-1/2 md:left-[34%] md:translate-x-0 top-[18%] w-[90%] md:w-[56%] text-center md:text-left`}>
                   <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">{section}</h1>
                   <p className="mt-4 text-lg leading-relaxed text-slate-600">
                     Coming soon...
@@ -779,6 +779,7 @@ export default function Home() {
           position: "absolute",
           left: scaleLeft,
           top: scaleTop,
+          zIndex: 20,
         }}
       >
 
