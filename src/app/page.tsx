@@ -813,24 +813,28 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Scroll hint — Detached from scaling window */}
-      <div
-        className="pointer-events-none absolute z-30"
-        style={{
-          width: DESIGN_W,
-          height: DESIGN_H,
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-          left: scaleLeft,
-          top: scaleTop,
-        }}
-      >
-        <div className={`${cabinSketch.className} absolute bottom-6 right-5 flex flex-col items-center gap-1 text-slate-500`}>
+      {/* Scroll/Swipe hint — Detached & fixed to bottom-right of viewport */}
+      <div className={`${cabinSketch.className} pointer-events-none fixed bottom-6 right-6 z-50 text-slate-500`}>
+        {/* Mouse/scroll hint (hidden on touch devices) */}
+        <div className="mouse-only-hint flex flex-col items-center gap-1">
           <svg className="scroll-bounce" width="22" height="34" viewBox="0 0 22 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="1.5" y="1.5" width="19" height="31" rx="9.5" stroke="currentColor" strokeWidth="2" />
             <rect x="9.5" y="6" width="3" height="7" rx="1.5" fill="currentColor" />
           </svg>
           <span className="text-[11px] tracking-widest sm:text-xs">scroll</span>
+        </div>
+
+        {/* Touch/swipe hint (shown only on touch devices) */}
+        <div className="touch-only-hint flex flex-col items-center gap-1">
+          <div className="flex items-center gap-1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-swipe">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            <span className="text-[11px] tracking-widest sm:text-xs">swipe</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-swipe-reverse">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </div>
         </div>
       </div>
 

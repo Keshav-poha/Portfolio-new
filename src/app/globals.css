@@ -78,3 +78,35 @@ img {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(74, 85, 104, 0.4);
 }
+
+/* Device-specific Scroll/Swipe Hints */
+.mouse-only-hint {
+  display: flex;
+}
+.touch-only-hint {
+  display: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .mouse-only-hint {
+    display: none;
+  }
+  .touch-only-hint {
+    display: flex;
+  }
+}
+
+@keyframes swipeMotion {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-4px); }
+}
+@keyframes swipeMotionReverse {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+.animate-swipe {
+  animation: swipeMotion 1.4s ease-in-out infinite;
+}
+.animate-swipe-reverse {
+  animation: swipeMotionReverse 1.4s ease-in-out infinite;
+}
