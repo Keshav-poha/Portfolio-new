@@ -495,6 +495,29 @@ export default function Home() {
         backgroundPosition: "0 0, 20vw 0",
       }}
     >
+      <header className="absolute left-0 top-0 z-40 w-full bg-transparent px-4 py-2 sm:px-6 sm:py-4">
+        <nav className="flex flex-nowrap items-center justify-start gap-0">
+          {navItems.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => snapTo(item)}
+              className={`${cabinSketch.className} cursor-pointer bg-cover bg-center bg-no-repeat min-w-[72px] px-3 py-2.5 text-xs sm:min-w-[140px] sm:px-8 sm:py-6 sm:text-base ${activeSection === item
+                ? "text-white [text-shadow:0_0_3px_#fff,0_0_1px_rgba(255,255,255,0.8)]"
+                : "text-slate-700"
+                }`}
+              style={{
+                backgroundImage: activeSection === item
+                  ? "url('/black_cloud.webp')"
+                  : "url('/cloud.webp')",
+              }}
+            >
+              <span className="relative top-0.5 sm:top-1">{item}</span>
+            </button>
+          ))}
+        </nav>
+      </header>
+
       <main
         className="relative overflow-hidden"
         style={{
@@ -507,28 +530,6 @@ export default function Home() {
           top: scaleTop,
         }}
       >
-        <header className="absolute left-0 top-0 z-40 w-full bg-transparent px-4 py-3 sm:px-6 sm:py-4">
-          <nav className="flex flex-wrap items-center justify-start gap-0 sm:gap-0">
-            {navItems.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => snapTo(item)}
-                className={`${cabinSketch.className} cursor-pointer bg-cover bg-center bg-no-repeat min-w-[120px] px-6 py-5 text-sm sm:min-w-[140px] sm:px-8 sm:py-6 sm:text-base ${activeSection === item
-                  ? "text-white [text-shadow:0_0_3px_#fff,0_0_1px_rgba(255,255,255,0.8)]"
-                  : "text-slate-700"
-                  }`}
-                style={{
-                  backgroundImage: activeSection === item
-                    ? "url('/black_cloud.webp')"
-                    : "url('/cloud.webp')",
-                }}
-              >
-                <span className="relative top-1">{item}</span>
-              </button>
-            ))}
-          </nav>
-        </header>
 
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
           <img
