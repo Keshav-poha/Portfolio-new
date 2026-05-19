@@ -514,7 +514,7 @@ export default function Home() {
                 key={item}
                 type="button"
                 onClick={() => snapTo(item)}
-                className={`cursor-pointer bg-cover bg-center bg-no-repeat min-w-[120px] px-6 py-5 text-sm sm:min-w-[140px] sm:px-8 sm:py-6 sm:text-base font-bold tracking-wider ${activeSection === item
+                className={`${cabinSketch.className} cursor-pointer bg-cover bg-center bg-no-repeat min-w-[120px] px-6 py-5 text-sm sm:min-w-[140px] sm:px-8 sm:py-6 sm:text-base ${activeSection === item
                   ? "text-white [text-shadow:0_0_3px_#fff,0_0_1px_rgba(255,255,255,0.8)]"
                   : "text-slate-700"
                   }`}
