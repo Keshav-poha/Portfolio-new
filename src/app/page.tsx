@@ -633,7 +633,7 @@ export default function Home() {
                     </span>
                   </div>
                   <div
-                    className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 p-1.5 pb-2 pr-3"
+                    className="mt-4 grid grid-cols-3 gap-3 p-1.5 pb-2 pr-3"
                   >
                     {(repos.length > 0 ? repos : FALLBACK_REPOS).map((repo, index) => {
                       const theme = CARD_THEMES[index % CARD_THEMES.length];
@@ -670,7 +670,7 @@ export default function Home() {
                             animationDelay: `${index * 80}ms`,
                             animationFillMode: "both",
                           }}
-                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.02] hover:rotate-0 hover:-translate-y-0.5 flex flex-col justify-between min-h-[135px]`}
+                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.02] hover:rotate-0 hover:-translate-y-0.5 flex flex-col justify-between aspect-square`}
                         >
                           <div>
                             <div className="flex items-start justify-between gap-1.5 w-full">
