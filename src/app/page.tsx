@@ -182,6 +182,8 @@ export default function Home() {
   const [scaleTop, setScaleTop] = useState(0);
   const [navScale, setNavScale] = useState(1.2);
   const [navLeft, setNavLeft] = useState(0);
+  const [secScale, setSecScale] = useState(0.6);
+  const [secLeft, setSecLeft] = useState(0);
   const activeSectionRef = useRef("About");
   const scrollXRef = useRef(0);
   const velocityRef = useRef(0);
@@ -198,6 +200,10 @@ export default function Home() {
       const ns = 1.2 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
       setNavScale(ns);
       setNavLeft(Math.max(0, (window.innerWidth - DESIGN_W * ns) / 2));
+
+      const ss = 0.6 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
+      setSecScale(ss);
+      setSecLeft(Math.max(0, (window.innerWidth - DESIGN_W * ss) / 2));
     };
     update();
     window.addEventListener("resize", update);
@@ -540,9 +546,9 @@ export default function Home() {
         style={{
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `scale(${navScale})`,
+          transform: `scale(${secScale})`,
           transformOrigin: "top left",
-          left: navLeft,
+          left: secLeft,
           top: 100,
         }}
       >
