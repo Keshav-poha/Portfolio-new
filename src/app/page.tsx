@@ -509,7 +509,7 @@ export default function Home() {
     >
       {/* Paper Airplane — Detached and behind everything */}
       <div
-        className="pointer-events-none absolute overflow-hidden z-0"
+        className="pointer-events-none absolute z-0"
         style={{
           width: DESIGN_W,
           height: DESIGN_H,
