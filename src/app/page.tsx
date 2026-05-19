@@ -571,13 +571,13 @@ export default function Home() {
           transform: `scale(${secScale})`,
           transformOrigin: "top left",
           left: secLeft,
-          top: 100,
+          top: scaleTop,
         }}
       >
         {/* Horizontal section strip */}
         <div
           ref={stripRef}
-          className="pointer-events-none absolute top-0 left-[14%] h-full flex"
+          className="pointer-events-none absolute top-[100px] left-[14%] h-[620px] flex"
           style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
         >
           {navItems.map((section) => (
@@ -628,7 +628,7 @@ export default function Home() {
               ) : section === "Projects" ? (
                 <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
-                    <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
+                    <h1 className="text-6xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
                       Pinned Repositories
                     </span>
@@ -675,17 +675,17 @@ export default function Home() {
                         >
                           <div>
                             <div className="flex items-start justify-between gap-1.5 w-full">
-                              <h2 className="text-[14px] font-bold tracking-wide text-slate-800 leading-snug break-all sm:break-words flex-1" title={repo.name}>
+                              <h2 className="text-[17px] md:text-[14px] font-bold tracking-wide text-slate-800 leading-snug truncate flex-1" title={repo.name}>
                                 {repo.name}
                               </h2>
                               <div className="flex flex-none items-center gap-1">
                                 {repo.fork && (
-                                  <span className="text-[8px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
+                                  <span className="text-[10px] md:text-[8px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
                                     fork
                                   </span>
                                 )}
                                 {repo.stars > 0 && (
-                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[10px] font-bold text-amber-700 leading-none">
+                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[12px] md:text-[10px] font-bold text-amber-700 leading-none">
                                     ★{repo.stars}
                                   </span>
                                 )}
@@ -694,8 +694,13 @@ export default function Home() {
 
                             {/* Render multiple languages as chips */}
                             <div className="flex flex-wrap gap-1 mt-2.5">
-                              {finalLangs.slice(0, 3).map((lang) => (
-                                <span key={lang} className="inline-flex items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[9px] font-sans font-bold text-slate-600">
+                              {finalLangs.slice(0, 3).map((lang, langIdx) => (
+                                <span
+                                  key={lang}
+                                  className={`inline-flex items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[11px] md:text-[9px] font-sans font-bold text-slate-600 ${
+                                    langIdx === 2 ? "hidden md:inline-flex" : ""
+                                  }`}
+                                >
                                   <span
                                     className="inline-block h-1.5 w-1.5 rounded-full"
                                     style={{ backgroundColor: LANG_COLORS[lang] ?? "#8b949e" }}
@@ -706,7 +711,7 @@ export default function Home() {
                             </div>
                           </div>
 
-                          <div className="mt-4 flex items-center justify-end border-t border-slate-200/40 pt-2 text-[10px] gap-2">
+                          <div className="mt-4 flex items-center justify-end border-t border-slate-200/40 pt-2 text-[12px] md:text-[10px] gap-2">
                             <a
                               href={repo.html_url}
                               target="_blank"
