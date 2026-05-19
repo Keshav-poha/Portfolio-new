@@ -201,7 +201,7 @@ export default function Home() {
       setNavScale(ns);
       setNavLeft(window.innerWidth * 0.01);
 
-      const ss = Math.min(0.8, window.innerWidth / DESIGN_W);
+      const ss = Math.min(0.6, window.innerWidth / DESIGN_W);
       setSecScale(ss);
       setSecLeft(Math.max(0, (window.innerWidth - DESIGN_W * ss) / 2));
     };
