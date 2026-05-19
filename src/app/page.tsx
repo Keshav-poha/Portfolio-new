@@ -197,14 +197,14 @@ export default function Home() {
       setScaleLeft(0);
       setScaleTop(window.innerHeight - DESIGN_H * s);
 
-      const ns = 1.2 * Math.min(1, window.innerWidth / 740, window.innerHeight / 740);
+      const ns = 1.2 * Math.min(1, window.innerWidth / 850, window.innerHeight / 850);
       setNavScale(ns);
       setNavLeft(window.innerWidth * 0.01);
 
       const ssRatio = window.innerWidth / DESIGN_W;
-      const ss = Math.min(1.0, ssRatio * (1.5 - 0.5 * ssRatio));
+      const ss = Math.min(1.0, ssRatio * (1.2 - 0.5 * ssRatio));
       setSecScale(ss);
-      setSecLeft(window.innerWidth * 0.10);
+      setSecLeft(window.innerWidth * 0.1);
     };
     update();
     window.addEventListener("resize", update);
@@ -577,8 +577,8 @@ export default function Home() {
         {/* Horizontal section strip */}
         <div
           ref={stripRef}
-          className="pointer-events-none absolute top-0 h-full flex"
-          style={{ left: 35, width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
+          className="pointer-events-none absolute top-0 left-0 h-full flex"
+          style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
         >
           {navItems.map((section) => (
             <div
@@ -587,7 +587,7 @@ export default function Home() {
               style={{ width: DESIGN_W }}
             >
               {section === "About" ? (
-                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">KESHAV</h1>
                   <p className="text-3xl md:text-3xl font-semibold tracking-wide text-green-600 mt-1">
                     NSUT&apos;29 · Information Technology
@@ -608,7 +608,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Experience" ? (
-                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">Experience</h1>
                   <p className="mt-4 text-3xl md:text-xl leading-relaxed text-slate-600">
                     Check out my full experience on LinkedIn.
@@ -626,7 +626,7 @@ export default function Home() {
                   </a>
                 </div>
               ) : section === "Projects" ? (
-                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[12%] w-[72%] text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
                     <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
@@ -732,7 +732,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Socials" ? (
-                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">Socials</h1>
                   <div className="mt-6 flex flex-col gap-6 md:gap-4 items-start">
                     {links.map(([label, href, svgPath]) => (
@@ -750,7 +750,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : section === "Blog" ? (
-                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">My Blogs on</h1>
                   <div className="mt-6 flex flex-col gap-6 md:gap-4 items-start">
                     <a
@@ -778,7 +778,7 @@ export default function Home() {
                   </div>
                 </div>
               ) : (
-                <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
+                <div className={`${cabinSketch.className} absolute left-[22%] top-[18%] w-[72%] text-left`}>
                   <h1 className="text-6xl md:text-7xl tracking-wider text-green-600">{section}</h1>
                   <p className="mt-4 text-3xl md:text-lg leading-relaxed text-slate-600">
                     Coming soon...
