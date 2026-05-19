@@ -571,13 +571,13 @@ export default function Home() {
           transform: `scale(${secScale})`,
           transformOrigin: "top left",
           left: secLeft,
-          top: scaleTop,
+          top: 100,
         }}
       >
         {/* Horizontal section strip */}
         <div
           ref={stripRef}
-          className="pointer-events-none absolute top-[100px] left-[14%] h-[620px] flex"
+          className="pointer-events-none absolute top-0 left-0 h-full flex"
           style={{ width: `${navItems.length * DESIGN_W}px`, willChange: "transform" }}
         >
           {navItems.map((section) => (
@@ -628,7 +628,7 @@ export default function Home() {
               ) : section === "Projects" ? (
                 <div className={`${cabinSketch.className} absolute left-[2%] top-[18%] w-[75%] text-left`}>
                   <div className="flex items-baseline justify-between pr-2">
-                    <h1 className="text-6xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
+                    <h1 className="text-4xl tracking-wider text-green-600 md:text-7xl">Projects</h1>
                     <span className="text-xs font-sans text-slate-500 font-semibold uppercase tracking-wider hidden sm:inline">
                       Pinned Repositories
                     </span>
@@ -671,21 +671,21 @@ export default function Home() {
                             animationDelay: `${index * 80}ms`,
                             animationFillMode: "both",
                           }}
-                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.02] hover:rotate-0 hover:-translate-y-0.5 flex flex-col justify-between min-h-[135px]`}
+                          className={`slide-up-in pointer-events-auto p-3 rounded-md border-2 border-dashed ${theme.bg} ${theme.border} ${theme.shadow} ${theme.rotate} transition-all duration-300 ease-in-out hover:scale-[1.02] hover:rotate-0 hover:-translate-y-0.5 flex flex-col justify-between aspect-[7/4] overflow-hidden`}
                         >
                           <div>
                             <div className="flex items-start justify-between gap-1.5 w-full">
-                              <h2 className="text-[17px] md:text-[14px] font-bold tracking-wide text-slate-800 leading-snug truncate flex-1" title={repo.name}>
+                              <h2 className="text-[18px] sm:text-[14px] font-bold tracking-wide text-slate-800 leading-snug truncate flex-1" title={repo.name}>
                                 {repo.name}
                               </h2>
                               <div className="flex flex-none items-center gap-1">
                                 {repo.fork && (
-                                  <span className="text-[10px] md:text-[8px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
+                                  <span className="text-[11px] sm:text-[8px] font-sans font-bold uppercase tracking-wider text-slate-400 border border-slate-300 px-1 py-0.5 rounded leading-none">
                                     fork
                                   </span>
                                 )}
                                 {repo.stars > 0 && (
-                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[12px] md:text-[10px] font-bold text-amber-700 leading-none">
+                                  <span className="flex items-center gap-0.5 rounded bg-amber-100/90 border border-amber-200/80 px-1 py-0.5 text-[13px] sm:text-[10px] font-bold text-amber-700 leading-none">
                                     ★{repo.stars}
                                   </span>
                                 )}
@@ -693,14 +693,9 @@ export default function Home() {
                             </div>
 
                             {/* Render multiple languages as chips */}
-                            <div className="flex flex-wrap gap-1 mt-2.5">
-                              {finalLangs.slice(0, 3).map((lang, langIdx) => (
-                                <span
-                                  key={lang}
-                                  className={`inline-flex items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[11px] md:text-[9px] font-sans font-bold text-slate-600 ${
-                                    langIdx === 2 ? "hidden md:inline-flex" : ""
-                                  }`}
-                                >
+                            <div className="flex flex-nowrap overflow-hidden gap-1 mt-2 sm:mt-2.5">
+                              {finalLangs.slice(0, 3).map((lang) => (
+                                <span key={lang} className="inline-flex flex-none items-center gap-1 rounded bg-white/70 border border-slate-200/50 px-1.5 py-0.5 text-[13px] sm:text-[9px] font-sans font-bold text-slate-600">
                                   <span
                                     className="inline-block h-1.5 w-1.5 rounded-full"
                                     style={{ backgroundColor: LANG_COLORS[lang] ?? "#8b949e" }}
@@ -711,7 +706,7 @@ export default function Home() {
                             </div>
                           </div>
 
-                          <div className="mt-4 flex items-center justify-end border-t border-slate-200/40 pt-2 text-[12px] md:text-[10px] gap-2">
+                          <div className="mt-3 sm:mt-4 flex flex-none items-center justify-end border-t border-slate-200/40 pt-2 text-[14px] sm:text-[10px] gap-2">
                             <a
                               href={repo.html_url}
                               target="_blank"
