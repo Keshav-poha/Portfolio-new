@@ -12,8 +12,8 @@ const DESIGN_W = 1080;
 const DESIGN_H = 720;
 
 // Set these to whatever larger limit you want for the sections
-const SEC_W = 1920; 
-const SEC_H = SEC_W*(9/16)+400;
+const SEC_W = 1920;
+const SEC_H = SEC_W * (9 / 16) + 400;
 
 type Repo = {
   name: string;
@@ -47,7 +47,7 @@ const FALLBACK_REPOS: Repo[] = [
     html_url: "https://github.com/Keshav-poha/Pixel-Pluck",
     languages: ["TypeScript", "CSS", "HTML"],
     stars: 8,
-    homepage: "https://pixel-pluck.vercel.app",
+    homepage: "",
     fork: false
   },
   {
@@ -56,7 +56,7 @@ const FALLBACK_REPOS: Repo[] = [
     html_url: "https://github.com/Keshav-poha/Portfolio-new",
     languages: ["TypeScript", "JavaScript", "CSS"],
     stars: 12,
-    homepage: "https://keshav.xyz",
+    homepage: "https://kkeshav.xyz",
     fork: false
   },
   {
@@ -65,7 +65,7 @@ const FALLBACK_REPOS: Repo[] = [
     html_url: "https://github.com/Keshav-poha/dsabuddy",
     languages: ["JavaScript", "HTML", "CSS"],
     stars: 5,
-    homepage: "https://dsabuddy.tech",
+    homepage: "https://dsabuddy.xyz",
     fork: false
   },
   {
@@ -877,7 +877,7 @@ export default function Home() {
           <img
             src="/glasses.webp"
             alt="Glasses"
-            className="pointer-events-none absolute left-[52.5%] top-[33.8%] h-auto w-[40%] -translate-x-1/2"
+            className="pointer-events-none absolute left-[52.5%] top-[50.5%] h-auto w-[40%] -translate-x-1/2"
           />
         </div>
 
@@ -889,7 +889,7 @@ export default function Home() {
           <img
             src="/sunglasses.webp"
             alt="Sunglasses"
-            className="pointer-events-none absolute left-[52.5%] top-[27%] h-auto w-[42%] -translate-x-1/2"
+            className="pointer-events-none absolute left-[52.5%] top-[37%] h-auto w-[42%] -translate-x-1/2"
           />
         </div>
 
